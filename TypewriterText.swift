@@ -1,8 +1,10 @@
 import SwiftUI
 struct TypewriterText: View {
     @State private var text: String = ""
-//    @Binding var hasFinished: Bool
     let finalText: String
+//    let onFinish: () -> Void
+//    @Binding var hasFinished: Bool
+    
     var body: some View {
         Text(text)
             .onAppear{
@@ -16,13 +18,13 @@ struct TypewriterText: View {
             text = ""
         }
         if position < finalText.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 text.append(finalText[position])
                 typeWriter(at: position + 1)
             }
         } else {
 //            withAnimation{
-//                hasFinished = true
+//                onFinish()
 //            }
         }
     }

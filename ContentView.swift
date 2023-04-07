@@ -1,8 +1,26 @@
 import SwiftUI
 import LiquidShape
 import LottieUI
+
+enum Step: CaseIterable, Equatable{
+    case name, weight, reproductiveStatus, activityLevel, bodyConditionScore, foodKcalPerCup, eatingFrequency, result
+    func next() -> Self {
+        let all = Self.allCases
+        let idx = all.firstIndex(of: self)!
+        let next = all.index(after: idx)
+        return all[next == all.endIndex ? all.startIndex : next]
+    }
+    func prev() -> Self {
+        let all = Self.allCases
+        let idx = all.firstIndex(of: self)!
+        let previous = all.index(before: idx)
+        return all[previous < all.startIndex ? all.index(before: all.endIndex) : previous]
+    }
+}
 struct ContentView: View {
     @State var nameTxt: String = ""
+    @State private var currentStep: Step = .name
+    @State private var weightTxt = 1
     var body: some View {
         ZStack{
             TimelineView(.animation) { ctx in
@@ -24,31 +42,65 @@ struct ContentView: View {
                 
                 
                 VStack(spacing: 30){
-                    Text("Your Dog's Name:")
-                        .font(Font.custom("Take Coffee", size: 32))
-                        .foregroundColor(Color("SecondaryDark"))  
-                    TextField("Input name", text: $nameTxt)
-                        .foregroundColor(Color("SecondaryDark"))
-                        .font(Font.custom("Take Coffee", size: 24))
-                        .padding()
-                        .border(Color("SecondaryDark"), width: 8)
-                        .cornerRadius(12, antialiased: true)
-                        .padding(.horizontal, 32)
-                    Button{
-                        
-                    } label: {
-                        Text("Next")
+                    if currentStep == .name{
+                        Text("Your Dog's Name:")
                             .font(Font.custom("Take Coffee", size: 32))
-                            .bold()
-                            .padding(.vertical)
-                            .padding(.horizontal, 50)
-                            .background(Color("PrimaryDark"))
-                            .cornerRadius(12)
-                            .foregroundColor(Color("PrimaryLight"))
+                            .foregroundColor(Color("SecondaryDark"))  
+                        TextField("", text: $nameTxt)
+                            .font(Font.custom("Take Coffee", size: 24))
+                            .padding()
+                        //warna cursor
+                        //                        .colorMultiply(Color("SecondaryDark"))
+                            .border(Color("SecondaryDark"), width: 8)
+                            .foregroundColor(Color("SecondaryDark"))
+                            .cornerRadius(12, antialiased: true)
+                    } else if currentStep == .weight {
+                        Text("Your Dog's Weight:")
+                            .font(Font.custom("Take Coffee", size: 32))
+                            .foregroundColor(Color("SecondaryDark"))  
+                        Stepper("\(weightTxt) kg", value: $weightTxt, in: 1...80, step: 1)
+                            .font(Font.custom("Take Coffee", size: 24))
+                            .padding()
+                            .border(Color("SecondaryDark"), width: 8)
+                            .foregroundColor(Color("SecondaryDark"))
+                            .cornerRadius(12, antialiased: true)
+                    }
+                    HStack{
+                        if currentStep != .name {
+                            Button{
+                                withAnimation{
+                                    currentStep = currentStep.prev()
+                                }
+                            } label: {
+                                Text("Back")
+                                    .font(Font.custom("Take Coffee", size: 32))
+                                    .bold()
+                                    .padding(.vertical)
+                                    .padding(.horizontal, 50)
+                                    .background(.gray)
+                                    .cornerRadius(12)
+                                    .foregroundColor(Color("PrimaryLight"))
+                            }
+                            Spacer()
+                        }
+                        Button{
+                            withAnimation{
+                                currentStep = currentStep.next()
+                            }
+                        } label: {
+                            Text(currentStep == .name ? "Start" : "Next")
+                                .font(Font.custom("Take Coffee", size: 32))
+                                .bold()
+                                .padding(.vertical)
+                                .padding(.horizontal, 50)
+                                .background(Color("PrimaryDark"))
+                                .cornerRadius(12)
+                                .foregroundColor(Color("PrimaryLight"))
+                        }
                     }
                 }
                 .frame(maxHeight: .infinity)
-                .padding(.vertical, 50)
+                .padding(.horizontal, 32)
                 HStack{
                     
                     ZStack{
@@ -68,7 +120,7 @@ struct ContentView: View {
                     .border(.green, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     
                     
-                    VStack{
+                    VStack(spacing: 0){
                         Text("Hi, I'm ")
                             .font(Font.custom("Take Coffee", size: 32))
                             .foregroundColor(Color("SecondaryDark"))
@@ -84,15 +136,18 @@ struct ContentView: View {
                             .font(Font.custom("Take Coffee", size: 32))
                             .multilineTextAlignment(.center)
                             .foregroundColor(Color("SecondaryDark"))
+                            .padding(.vertical, 15)
+                            .padding(.horizontal, 38)
+                            .border(.red)
                         
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Image("bubble")
                         .resizable()
                         .scaledToFill()
-                        .scaleEffect(CGSize(width: 1, height: -0.6))
+                        .scaleEffect(CGSize(width: 1, height: -0.7))
                         .rotationEffect(.degrees(-10))
-//                        .border(.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                                //                        .border(.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     )
                     .border(.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     .padding(10)
