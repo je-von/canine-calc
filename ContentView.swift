@@ -16,14 +16,14 @@ struct ContentView: View {
             }
             .frame(minHeight: 0, maxHeight: .infinity, alignment: .bottom)
             VStack{
-                Text("Welcome to CanineCalc!")
+                Text("Welcome to CanineCalc !")
                     .padding(.top)
                     .frame(maxWidth: .infinity)
                     .font(Font.custom("Take Coffee", size: 48))
                     .foregroundColor(Color("SecondaryDark"))
                 
                 
-                VStack{
+                VStack(spacing: 30){
                     Text("Your Dog's Name:")
                         .font(Font.custom("Take Coffee", size: 32))
                         .foregroundColor(Color("SecondaryDark"))  
@@ -32,13 +32,24 @@ struct ContentView: View {
                         .font(Font.custom("Take Coffee", size: 24))
                         .padding()
                         .border(Color("SecondaryDark"), width: 8)
-                        .cornerRadius(10, antialiased: true)
-                        .padding(.horizontal, 30)
-                    
+                        .cornerRadius(12, antialiased: true)
+                        .padding(.horizontal, 32)
+                    Button{
+                        
+                    } label: {
+                        Text("Next")
+                            .font(Font.custom("Take Coffee", size: 32))
+                            .bold()
+                            .padding(.vertical)
+                            .padding(.horizontal, 50)
+                            .background(Color("PrimaryDark"))
+                            .cornerRadius(12)
+                            .foregroundColor(Color("PrimaryLight"))
+                    }
                 }
                 .frame(maxHeight: .infinity)
                 .padding(.vertical, 50)
-                HStack(alignment: .bottom){
+                HStack{
                     
                     ZStack{
                         LottieView(state: LUStateData(type: .name("wave", .main), speed: 0.5, loopMode: .loop))
@@ -51,22 +62,40 @@ struct ContentView: View {
                         
                     }
                     .scaledToFill()
-                    .frame(width: 300, height: 600)
+                    .frame(width: 280, height: 600)
                     .padding(.vertical, -40)
                     .zIndex(50)
                     .border(.green, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-                    ZStack{
-                        Image("bubble")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: .infinity)
-                            .scaleEffect(CGSize(width: 1, height: -1))
-                            .rotationEffect(.degrees(-10))
-                            .border(.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-                        Text("Hi, I'm Bailey!")
+                    
+                    
+                    VStack{
+                        Text("Hi, I'm ")
                             .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("SecondaryDark"))  
+                            .foregroundColor(Color("SecondaryDark"))
+                        + 
+                        Text("Bailey ")
+                            .font(Font.custom("Take Coffee", size: 32))
+                            .foregroundColor(Color("PrimaryDark"))
+                        +
+                        Text("!")
+                            .font(Font.custom("Take Coffee", size: 32))
+                            .foregroundColor(Color("SecondaryDark"))
+                        TypewriterText(finalText: "I'm here to help you calculate your dog's daily calories for a wag-tastic, healthy doggo!!")
+                            .font(Font.custom("Take Coffee", size: 32))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Color("SecondaryDark"))
+                        
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Image("bubble")
+                        .resizable()
+                        .scaledToFill()
+                        .scaleEffect(CGSize(width: 1, height: -0.6))
+                        .rotationEffect(.degrees(-10))
+//                        .border(.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                    )
+                    .border(.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                    .padding(10)
                     
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
