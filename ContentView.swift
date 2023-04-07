@@ -19,8 +19,23 @@ enum Step: CaseIterable, Equatable{
 }
 struct ContentView: View {
     @State var nameTxt: String = ""
-    @State private var currentStep: Step = .name
+    @State private var currentStep: Step = .reproductiveStatus
     @State private var weightTxt = 1
+    @State private var isSterilized = "No"
+    init() {
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
+        UISegmentedControl.appearance().backgroundColor = .gray
+//        
+//        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32)], for: .highlighted)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32)], for: .normal)
+        
+//        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.cyan], for: .highlighted)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
+        
+        UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
+        
+    }
+
     var body: some View {
         ZStack{
             TimelineView(.animation) { ctx in
@@ -64,6 +79,18 @@ struct ContentView: View {
                             .border(Color("SecondaryDark"), width: 8)
                             .foregroundColor(Color("SecondaryDark"))
                             .cornerRadius(12, antialiased: true)
+                    } else if currentStep == .reproductiveStatus {
+                        Text("Is Your Dog Sterilized?")
+                            .font(Font.custom("Take Coffee", size: 32))
+                            .foregroundColor(Color("SecondaryDark"))  
+                        Picker("", selection: $isSterilized) {
+                            ForEach(["Yes", "No"], id: \.self){
+                                Text($0)
+                            }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .frame(height: 60)
+                        
                     }
                     HStack{
                         if currentStep != .name {
@@ -114,10 +141,9 @@ struct ContentView: View {
                         
                     }
                     .scaledToFill()
-                    .frame(width: 280, height: 600)
+                    .frame(width: 285, height: 600)
                     .padding(.vertical, -40)
                     .zIndex(50)
-                    .border(.green, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     
                     
                     VStack(spacing: 0){
@@ -138,7 +164,6 @@ struct ContentView: View {
                             .foregroundColor(Color("SecondaryDark"))
                             .padding(.vertical, 15)
                             .padding(.horizontal, 38)
-                            .border(.red)
                         
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -147,9 +172,7 @@ struct ContentView: View {
                         .scaledToFill()
                         .scaleEffect(CGSize(width: 1, height: -0.7))
                         .rotationEffect(.degrees(-10))
-                                //                        .border(.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     )
-                    .border(.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     .padding(10)
                     
                 }
