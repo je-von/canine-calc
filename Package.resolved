@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "liquidshape",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ValentinWalter/LiquidShape",
+      "state" : {
+        "revision" : "19a45ab7ba5ad6471cdc7e6cbb6527c56a207a62",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "43a8c7ff7109fcc0bde6366e2778d880d8bc3a06"
+      }
+    },
+    {
+      "identity" : "lottieui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jasudev/LottieUI.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "27793ad19c887bc1fcf3846d94d2425692a39069"
+      }
+    }
+  ],
+  "version" : 2
+}
