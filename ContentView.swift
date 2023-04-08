@@ -3,7 +3,9 @@ import LiquidShape
 import LottieUI
 import SwiftUIVisualEffects
 enum Step: CaseIterable, Equatable{
-    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, foodKcalPerCup, eatingFrequency, result
+    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, 
+//         foodKcalPerCup, eatingFrequency, 
+         result
     func next() -> Self {
         let all = Self.allCases
         let idx = all.firstIndex(of: self)!
@@ -20,12 +22,15 @@ enum Step: CaseIterable, Equatable{
 struct ContentView: View {
     // TODO: validate input
     @State private var nameTxt: String = ""
-    @State private var currentStep: Step = .name
+    @State private var currentStep: Step = .bodyConditionScore
     @State private var weightTxt = 5.0
     @State private var ageInMonths = 24
     @State private var isSterilized = "No"
     @State private var activityLevel = "Inactive"
-    @State private var bodyConditionScore = "Ideal"
+//    @State private var bodyCondition = "Ideal"
+    @State private var bodyCondition = 5.0
+    @State private var MER = 0.0
+    @State private var idealWeight = 0.0
     @State private var isModalVisible = false
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
@@ -35,6 +40,7 @@ struct ContentView: View {
         
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
         
+        UISlider.appearance().setThumbImage(UIImage(systemName: "pawprint.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .regular, scale: .default )), for: .normal)
     }
     
     var body: some View {
@@ -141,26 +147,41 @@ struct ContentView: View {
                         
                         
                     } else if currentStep == .bodyConditionScore {
-                        FormView(text: "What is your dog Body Condition Score ?", isModalVisible: $isModalVisible, field: AnyView(
-                            Picker("", selection: $bodyConditionScore) {
-                                ForEach(["Underweight", "Ideal", "Overweight"], id: \.self){
-                                    Text($0)
+                        FormView(text: "What is your dog's Body Condition Score ?", isModalVisible: $isModalVisible, field: AnyView(
+                            VStack{
+                                Slider(value: $bodyCondition, in: 1...9, step: 1)
+                                    .accentColor(Color("SecondaryDark"))
+                                
+                                HStack {
+                                    ForEach(1...9, id: \.self) { number in
+                                        Text("\(number)")
+                                            .font(Font.custom("Take Coffee", size: 24))
+                                            .foregroundColor(Color("SecondaryDark"))
+                                        if number != 9 {
+                                            Spacer()
+                                        }
+                                    }
                                 }
+                                
+                                HStack {
+                                    Text("Underweight")
+                                    Spacer()
+                                    Text("Ideal")
+                                    Spacer()
+                                    Text("Overweight")
+                                }
+                                .font(Font.custom("Take Coffee", size: 24))
+                                .foregroundColor(Color("SecondaryDark"))
+                                .padding(.top, 5)
                             }
-                                .pickerStyle(SegmentedPickerStyle())
-                                .frame(height: 60)
                         ))
+                    } else if currentStep == .result {
+                        
                     }
                     HStack{
                         if currentStep != .name {
                             Button{
-                                if currentStep == .bodyConditionScore {
-                                    var rer = 70.0 * pow(weightTxt, 0.75)
-                                    
-                                    var signalmentFactor = isSterilized == "Yes" ? 1.6 : 1.8
-                                    
-                                    
-                                }
+                                guard currentStep != .name else { return }
                                 withAnimation{
                                     currentStep = currentStep.prev()
                                 }
@@ -177,6 +198,50 @@ struct ContentView: View {
                             Spacer()
                         }
                         Button{
+                            if currentStep == .bodyConditionScore {
+                                var RER = 70.0 * pow(weightTxt, 0.75)
+                                
+                                var signalmentFactor = isSterilized == "Yes" ? 1.6 : 1.8
+                                
+                                var ageFactor: Double
+                                if ageInMonths <= 4 {
+                                    ageFactor = 3
+                                } else if ageInMonths <= 7 {
+                                    ageFactor = 2
+                                } else if ageInMonths <= 12 {
+                                    ageFactor = 1.6
+                                } else if ageInMonths <= 7 * 12 {
+                                    ageFactor = 1
+                                } else {
+                                    ageFactor = 0.8
+                                }
+                                
+                                var activityLevelFactor: Double
+                                if activityLevel == "Inactive" {
+                                    activityLevelFactor = 1
+                                } else if activityLevel == "Moderate" {
+                                    activityLevelFactor = 1.2
+                                } else if activityLevel == "Active" {
+                                    activityLevelFactor = 1.4
+                                } else {
+                                    activityLevelFactor = 1.6
+                                }
+                                
+//                                var bodyConditionScoreFactor: Double
+//                                if bodyCondition == "Underweight" {
+//                                    bodyConditionScoreFactor = 1.2
+//                                } else if bodyCondition == "Ideal" {
+//                                    bodyConditionScoreFactor = 1
+//                                } else {
+//                                    bodyConditionScoreFactor = 0.8
+//                                }
+                                
+//                                MER = RER * signalmentFactor * ageFactor * activityLevelFactor * bodyConditionScoreFactor
+                                
+//                                var bodyConditionScore = abs(bodyConditionScoreFactor * 5 - 10)
+//                                
+//                                idealWeight = (100 / ((bodyConditionScore - 5) * 10 + 100)) * weightTxt
+                            }
                             withAnimation{
                                 currentStep = currentStep.next()
                             }
