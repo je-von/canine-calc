@@ -60,49 +60,38 @@ struct ContentView: View {
                 
                 VStack(spacing: 30){
                     if currentStep == .name {
-                        HStack{
-                            Text("What's your dog's name?")
-                                .font(Font.custom("Take Coffee", size: 32))
-                                .foregroundColor(Color("SecondaryDark")) 
-                            Button{
-                                withAnimation{
-                                    isModalVisible = true
-                                }
-                            }label: {
-                                Image(systemName: "info.circle")
-                                    .foregroundColor(Color("SecondaryDark"))
-                            }
-                        }
-                        TextField("", text: $nameTxt)
-                            .font(Font.custom("Take Coffee", size: 24))
-                            .padding() 
-                            .foregroundColor(.white)
-                            .colorMultiply(Color("SecondaryDark"))
-                            .border(Color("SecondaryDark"), width: 8)
-                            .cornerRadius(12, antialiased: true)
+                        FormView(text: "What's your dog's name ?", isModalVisible: $isModalVisible, field: AnyView(
+                            TextField("", text: $nameTxt)
+                                .font(Font.custom("Take Coffee", size: 24))
+                                .padding() 
+                                .foregroundColor(.white)
+                                .colorMultiply(Color("SecondaryDark"))
+                                .border(Color("SecondaryDark"), width: 8)
+                                .cornerRadius(12, antialiased: true)
+                        ))
                     } else if currentStep == .weight {
-                        Text("What's Your Dog's Weight?")
-                            .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("SecondaryDark"))  
-                        Stepper("\(weightTxt) kg", value: $weightTxt, in: 1...80, step: 1)
-                            .font(Font.custom("Take Coffee", size: 24))
-                            .padding()
-                            .foregroundColor(.white)
-                            .colorMultiply(Color("SecondaryDark"))
-                            .border(Color("SecondaryDark"), width: 8)
+                        FormView(text: "What's your dog's weight ?", isModalVisible: $isModalVisible, field: AnyView(
+                            Stepper("\(weightTxt) kg", value: $weightTxt, in: 1...80, step: 1)
+                                .font(Font.custom("Take Coffee", size: 24))
+                                .padding()
+                                .foregroundColor(.white)
+                                .colorMultiply(Color("SecondaryDark"))
+                                .border(Color("SecondaryDark"), width: 8)
+                            
+                                .cornerRadius(12, antialiased: true)
+                        )) 
                         
-                            .cornerRadius(12, antialiased: true)
                     } else if currentStep == .reproductiveStatus {
-                        Text("Is Your Dog Sterilized?")
-                            .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("SecondaryDark"))  
-                        Picker("", selection: $isSterilized) {
-                            ForEach(["Yes", "No"], id: \.self){
-                                Text($0)
+                        FormView(text: "Is your dog sterilized ?", isModalVisible: $isModalVisible, field: AnyView(
+                            Picker("", selection: $isSterilized) {
+                                ForEach(["Yes", "No"], id: \.self){
+                                    Text($0)
+                                }
                             }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .frame(height: 60)
+                                .pickerStyle(SegmentedPickerStyle())
+                                .frame(height: 60)
+                        ))
+                        
                         
                     }
                     HStack{
