@@ -226,6 +226,8 @@ struct ContentView: View {
                             Spacer()
                         }
                         Button{
+                            guard !nameTxt.isEmpty else { return }
+                            
                             if currentStep == .bodyConditionScore {
                                 var RER = 70.0 * pow(weightTxt, 0.75)
                                 
@@ -269,6 +271,7 @@ struct ContentView: View {
                         
                                 idealWeight = (100 / ((bodyCondition - 5) * 10 + 100)) * weightTxt
                             }
+                            
                             withAnimation{
                                 currentStep = currentStep.next()
                             }
@@ -278,7 +281,7 @@ struct ContentView: View {
                                 .bold()
                                 .padding(.vertical)
                                 .padding(.horizontal, 50)
-                                .background(Color("PrimaryDark"))
+                                .background(nameTxt.isEmpty ? .gray : Color("PrimaryDark"))
                                 .cornerRadius(12)
                                 .foregroundColor(Color("PrimaryLight"))
                         }
