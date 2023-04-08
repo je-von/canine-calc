@@ -22,7 +22,7 @@ enum Step: CaseIterable, Equatable{
 struct ContentView: View {
     // TODO: validate input
     @State private var nameTxt: String = ""
-    @State private var currentStep: Step = .bodyConditionScore
+    @State private var currentStep: Step = .name
     @State private var weightTxt = 5.0
     @State private var ageInMonths = 24
     @State private var isSterilized = "No"
@@ -176,7 +176,21 @@ struct ContentView: View {
                             }
                         ))
                     } else if currentStep == .result {
-                        
+                        HStack{
+                            FormView(text: "\(nameTxt.capitalized)'s daily calorie needs", isModalVisible: $isModalVisible, field: AnyView(
+                                Text("\(Int(MER)) kcal/day")
+                                    .font(Font.custom("Take Coffee", size: 48))
+                                    .foregroundColor(Color("PrimaryDark"))
+                                    .padding(.top, 3)
+                            ))
+                            Spacer()
+                            FormView(text: "\(nameTxt.capitalized)'s ideal weight", isModalVisible: $isModalVisible, field: AnyView(
+                                Text("\(Int(idealWeight)) kg")
+                                    .font(Font.custom("Take Coffee", size: 48))
+                                    .foregroundColor(Color("PrimaryDark"))
+                                    .padding(.top, 3)
+                            ))
+                        }
                     }
                     HStack{
                         if currentStep != .name {
@@ -191,6 +205,20 @@ struct ContentView: View {
                                     .bold()
                                     .padding(.vertical)
                                     .padding(.horizontal, 50)
+                                    .background(.gray)
+                                    .cornerRadius(12)
+                                    .foregroundColor(Color("PrimaryLight"))
+                            }
+                            Spacer()
+                        }
+                        if currentStep == .result {
+                            Button{
+                                currentStep = .name
+                            } label: {
+                                Image(systemName: "gobackward")
+                                    .font(.system(size: 28))
+                                    .padding(.vertical)
+                                    .padding(.horizontal, 20)
                                     .background(.gray)
                                     .cornerRadius(12)
                                     .foregroundColor(Color("PrimaryLight"))
@@ -227,20 +255,19 @@ struct ContentView: View {
                                     activityLevelFactor = 1.6
                                 }
                                 
-//                                var bodyConditionScoreFactor: Double
-//                                if bodyCondition == "Underweight" {
-//                                    bodyConditionScoreFactor = 1.2
-//                                } else if bodyCondition == "Ideal" {
-//                                    bodyConditionScoreFactor = 1
-//                                } else {
-//                                    bodyConditionScoreFactor = 0.8
-//                                }
+                                var bodyConditionScoreFactor: Double
+                                if bodyCondition < 4 {
+                                    bodyConditionScoreFactor = 1.2
+                                } else if bodyCondition < 6 {
+                                    bodyConditionScoreFactor = 1
+                                } else {
+                                    bodyConditionScoreFactor = 0.8
+                                }
                                 
-//                                MER = RER * signalmentFactor * ageFactor * activityLevelFactor * bodyConditionScoreFactor
-                                
-//                                var bodyConditionScore = abs(bodyConditionScoreFactor * 5 - 10)
-//                                
-//                                idealWeight = (100 / ((bodyConditionScore - 5) * 10 + 100)) * weightTxt
+                                MER = RER * signalmentFactor * ageFactor * activityLevelFactor * bodyConditionScoreFactor
+                               
+                        
+                                idealWeight = (100 / ((bodyCondition - 5) * 10 + 100)) * weightTxt
                             }
                             withAnimation{
                                 currentStep = currentStep.next()
@@ -256,9 +283,11 @@ struct ContentView: View {
                                 .foregroundColor(Color("PrimaryLight"))
                         }
                     }
+//                    .border(.red)
                 }
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal, 32)
+                
                 HStack{
                     ZStack{
                         LottieView(state: LUStateData(type: .name("wave", .main), speed: 0.5, loopMode: .loop))
@@ -272,7 +301,6 @@ struct ContentView: View {
                     .frame(width: 285, height: 600)
                     .padding(.vertical, -40)
                     .zIndex(50)
-                    
                     
                     VStack(spacing: 0){
                         Text("Hi, I'm ")
