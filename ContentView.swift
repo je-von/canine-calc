@@ -19,19 +19,16 @@ enum Step: CaseIterable, Equatable{
 }
 struct ContentView: View {
     @State var nameTxt: String = ""
-    @State private var currentStep: Step = .name
+    @State private var currentStep: Step = .activityLevel
     @State private var weightTxt = 1
     @State private var isSterilized = "No"
+    @State private var activityLevel = "Inactive"
     
     @State private var isModalVisible = false
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
         UISegmentedControl.appearance().backgroundColor = .gray
-        //        
-        //        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32)], for: .highlighted)
         UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32) as Any], for: .normal)
-        
-        //        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.cyan], for: .highlighted)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
         
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
@@ -93,6 +90,18 @@ struct ContentView: View {
                         ))
                         
                         
+                    } else if currentStep == .activityLevel {
+                        FormView(text: "How active is your dog ?", isModalVisible: $isModalVisible, field: AnyView(
+                            Picker("", selection: $activityLevel) {
+                                ForEach(["Inactive", "Moderate", "Active", "Energetic"], id: \.self){
+                                    Text($0)
+                                }
+                            }
+                                .pickerStyle(SegmentedPickerStyle())
+                                .frame(height: 60)
+                        ))
+                        
+                        
                     }
                     HStack{
                         if currentStep != .name {
@@ -131,16 +140,13 @@ struct ContentView: View {
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal, 32)
                 HStack{
-                    
                     ZStack{
                         LottieView(state: LUStateData(type: .name("wave", .main), speed: 0.5, loopMode: .loop))
                             .zIndex(50)
-                        
-                        //                        .opacity(currentStep == .intro || currentStep == .win || currentStep == .lose ? 1 : 0)
-                        
-                        //                    LottieView(state: LUStateData(type: .name("think", .main), speed: 0.5, loopMode: .loop))
-                        //                        .opacity(currentStep == .question || currentStep == .memorize ? 1 : 0)
-                        
+                            .opacity(currentStep == .name || currentStep == .result ? 1 : 0)
+                        LottieView(state: LUStateData(type: .name("think", .main), speed: 0.5, loopMode: .loop))
+                            .opacity(currentStep != .name && currentStep != .result ? 1 : 0)
+                            .scaleEffect(1.05)
                     }
                     .scaledToFill()
                     .frame(width: 285, height: 600)

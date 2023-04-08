@@ -27,13 +27,6 @@ struct FormView: View {
                 }
             }
             field
-//            TextField("", text: $nameTxt)
-//                .font(Font.custom("Take Coffee", size: 24))
-//                .padding() 
-//                .foregroundColor(.white)
-//                .colorMultiply(Color("SecondaryDark"))
-//                .border(Color("SecondaryDark"), width: 8)
-//                .cornerRadius(12, antialiased: true)
         }
     }
 }
