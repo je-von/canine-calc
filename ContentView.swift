@@ -29,7 +29,7 @@ struct ContentView: View {
         UISegmentedControl.appearance().backgroundColor = .gray
         //        
         //        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32)], for: .highlighted)
-        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32)], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32) as Any], for: .normal)
         
         //        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.cyan], for: .highlighted)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
@@ -194,12 +194,13 @@ struct ContentView: View {
             .if(isModalVisible){ view in
                 view.blurEffect()
                     .blurEffectStyle(.systemUltraThinMaterialDark)
+                    .onTapGesture {
+                        withAnimation{
+                            isModalVisible = false
+                        }
+                    }
             }
-            .onTapGesture {
-                withAnimation{
-                    isModalVisible = false
-                }
-            }
+            
             
             
             if isModalVisible {
