@@ -1,7 +1,7 @@
 import SwiftUI
 import LiquidShape
 import LottieUI
-
+import SwiftUIVisualEffects
 enum Step: CaseIterable, Equatable{
     case name, weight, reproductiveStatus, activityLevel, bodyConditionScore, foodKcalPerCup, eatingFrequency, result
     func next() -> Self {
@@ -22,6 +22,8 @@ struct ContentView: View {
     @State private var currentStep: Step = .name
     @State private var weightTxt = 1
     @State private var isSterilized = "No"
+    
+    @State private var isModalVisible = false
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
         UISegmentedControl.appearance().backgroundColor = .gray
@@ -57,16 +59,26 @@ struct ContentView: View {
                 
                 
                 VStack(spacing: 30){
-                    if currentStep == .name{
-                        Text("What's your dog's name?")
-                            .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("SecondaryDark"))  
+                    if currentStep == .name {
+                        HStack{
+                            Text("What's your dog's name?")
+                                .font(Font.custom("Take Coffee", size: 32))
+                                .foregroundColor(Color("SecondaryDark")) 
+                            Button{
+                                withAnimation{
+                                    isModalVisible = true
+                                }
+                            }label: {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(Color("SecondaryDark"))
+                            }
+                        }
                         TextField("", text: $nameTxt)
                             .font(Font.custom("Take Coffee", size: 24))
                             .padding() 
                             .foregroundColor(.white)
                             .colorMultiply(Color("SecondaryDark"))
-                        .border(Color("SecondaryDark"), width: 8)
+                            .border(Color("SecondaryDark"), width: 8)
                             .cornerRadius(12, antialiased: true)
                     } else if currentStep == .weight {
                         Text("Your Dog's Weight:")
@@ -179,9 +191,38 @@ struct ContentView: View {
                 
             }
             .padding()
+            .if(isModalVisible){ view in
+                view.blurEffect()
+                    .blurEffectStyle(.systemUltraThinMaterialDark)
+            }
+            .onTapGesture {
+                withAnimation{
+                    isModalVisible = false
+                }
+            }
+            
+            
+            if isModalVisible {
+                
+                VStack{
+                    Text("Info blablabla").foregroundColor(.black).border(.green)
+                }.frame(width: 800, height:1000)
+                    .background(BlurEffect()).blurEffectStyle(.systemMaterialLight)
+                    .cornerRadius(20, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+            }
         }
         
         .background(Color("PrimaryLight"))
         
+    }
+}
+
+extension View {
+    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
     }
 }

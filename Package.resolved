@@ -26,6 +26,15 @@
         "branch" : "main",
         "revision" : "27793ad19c887bc1fcf3846d94d2425692a39069"
       }
+    },
+    {
+      "identity" : "swiftui-visual-effects",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lucasbrown/swiftui-visual-effects",
+      "state" : {
+        "revision" : "b26f8cebd55ff60ed8953768aa818dfb005b5838",
+        "version" : "1.0.3"
+      }
     }
   ],
   "version" : 2

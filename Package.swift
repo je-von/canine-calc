@@ -37,7 +37,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/ValentinWalter/LiquidShape", "1.0.0"..<"2.0.0"),
         .package(url: "https://github.com/airbnb/lottie-ios", .branch("master")),
-        .package(url: "https://github.com/jasudev/LottieUI.git", .branch("main"))
+        .package(url: "https://github.com/jasudev/LottieUI.git", .branch("main")),
+        .package(url: "https://github.com/lucasbrown/swiftui-visual-effects", "1.0.3"..<"2.0.0")
     ],
     targets: [
         .executableTarget(
@@ -45,7 +46,8 @@ let package = Package(
             dependencies: [
                 .product(name: "LiquidShape", package: "LiquidShape"),
                 .product(name: "Lottie", package: "lottie-ios"),
-                .product(name: "LottieUI", package: "lottieui")
+                .product(name: "LottieUI", package: "lottieui"),
+                .product(name: "SwiftUIVisualEffects", package: "swiftui-visual-effects")
             ],
             path: ".",
             resources: [
