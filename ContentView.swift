@@ -81,14 +81,16 @@ struct ContentView: View {
                             .border(Color("SecondaryDark"), width: 8)
                             .cornerRadius(12, antialiased: true)
                     } else if currentStep == .weight {
-                        Text("Your Dog's Weight:")
+                        Text("What's Your Dog's Weight?")
                             .font(Font.custom("Take Coffee", size: 32))
                             .foregroundColor(Color("SecondaryDark"))  
                         Stepper("\(weightTxt) kg", value: $weightTxt, in: 1...80, step: 1)
                             .font(Font.custom("Take Coffee", size: 24))
                             .padding()
+                            .foregroundColor(.white)
+                            .colorMultiply(Color("SecondaryDark"))
                             .border(Color("SecondaryDark"), width: 8)
-                            .foregroundColor(Color("SecondaryDark"))
+                        
                             .cornerRadius(12, antialiased: true)
                     } else if currentStep == .reproductiveStatus {
                         Text("Is Your Dog Sterilized?")
