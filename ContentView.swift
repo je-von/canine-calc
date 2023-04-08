@@ -3,9 +3,7 @@ import LiquidShape
 import LottieUI
 import SwiftUIVisualEffects
 enum Step: CaseIterable, Equatable{
-    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, 
-//         foodKcalPerCup, eatingFrequency, 
-         result
+    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, result, food, resultWithFood
     func next() -> Self {
         let all = Self.allCases
         let idx = all.firstIndex(of: self)!
@@ -20,17 +18,18 @@ enum Step: CaseIterable, Equatable{
     }
 }
 struct ContentView: View {
-    // TODO: validate input
+    // TODO: validate input, replace "your dog" with dog's name
     @State private var nameTxt: String = ""
     @State private var currentStep: Step = .name
     @State private var weightTxt = 5.0
     @State private var ageInMonths = 24
     @State private var isSterilized = "No"
     @State private var activityLevel = "Inactive"
-//    @State private var bodyCondition = "Ideal"
     @State private var bodyCondition = 5.0
     @State private var MER = 0.0
     @State private var idealWeight = 0.0
+    @State private var foodKcal = 4.5
+    @State private var foodFrequency = 2.0
     @State private var isModalVisible = false
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
@@ -191,6 +190,30 @@ struct ContentView: View {
                                     .padding(.top, 3)
                             ))
                         }
+                    } else if currentStep == .food {
+                        HStack{
+                            FormView(text: "What's your dog's food kcal/gram ?", isModalVisible: $isModalVisible, field: AnyView(
+                                Stepper(String(format: "%.2f kcal/gram", foodKcal), value: $foodKcal, in: 0.1...100, step: 0.05)
+                                    .font(Font.custom("Take Coffee", size: 24))
+                                    .padding()
+                                    .foregroundColor(.white)
+                                    .colorMultiply(Color("SecondaryDark"))
+                                    .border(Color("SecondaryDark"), width: 8)
+                                
+                                    .cornerRadius(12, antialiased: true)
+                            ))
+                            Spacer()
+                            FormView(text: "How frequent does your dog eat ?", isModalVisible: $isModalVisible, field: AnyView(
+                                Stepper(String(format: "%.0f meals/day", foodFrequency), value: $foodFrequency, in: 1...10, step: 1)
+                                    .font(Font.custom("Take Coffee", size: 24))
+                                    .padding()
+                                    .foregroundColor(.white)
+                                    .colorMultiply(Color("SecondaryDark"))
+                                    .border(Color("SecondaryDark"), width: 8)
+                                
+                                    .cornerRadius(12, antialiased: true)
+                            ))
+                        }
                     }
                     HStack{
                         if currentStep != .name {
@@ -209,11 +232,10 @@ struct ContentView: View {
                                     .cornerRadius(12)
                                     .foregroundColor(Color("PrimaryLight"))
                             }
-                            Spacer()
-                        }
-                        if currentStep == .result {
                             Button{
-                                currentStep = .name
+                                withAnimation{
+                                    currentStep = .name
+                                }
                             } label: {
                                 Image(systemName: "gobackward")
                                     .font(.system(size: 28))
@@ -317,7 +339,14 @@ struct ContentView: View {
                         Text("!")
                             .font(Font.custom("Take Coffee", size: 32))
                             .foregroundColor(Color("SecondaryDark"))
-                        TypewriterText(finalText: "I'm here to help you calculate your dog's daily calories for a wag-tastic, healthy doggo!!")
+                        VStack{
+                            if currentStep == .result {
+                                TypewriterText(finalText: "Here are the results! If you need help calculating the right amount of food to fulfill the needed calories, click Next!")
+                            } else {
+                                TypewriterText(finalText: "I'm here to help you calculate your dog's daily calories for a wag-tastic, healthy doggo!!")
+                            }
+                            
+                        }
                             .font(Font.custom("Take Coffee", size: 32))
                             .multilineTextAlignment(.center)
                             .foregroundColor(Color("SecondaryDark"))
