@@ -3,7 +3,7 @@ import LiquidShape
 import LottieUI
 import SwiftUIVisualEffects
 enum Step: CaseIterable, Equatable{
-    case name, weight, reproductiveStatus, activityLevel, bodyConditionScore, foodKcalPerCup, eatingFrequency, result
+    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, foodKcalPerCup, eatingFrequency, result
     func next() -> Self {
         let all = Self.allCases
         let idx = all.firstIndex(of: self)!
@@ -18,9 +18,11 @@ enum Step: CaseIterable, Equatable{
     }
 }
 struct ContentView: View {
+    // TODO: validate input
     @State private var nameTxt: String = ""
-    @State private var currentStep: Step = .activityLevel
-    @State private var weightTxt = 1
+    @State private var currentStep: Step = .name
+    @State private var weightTxt = 5.0
+    @State private var ageInMonths = 24
     @State private var isSterilized = "No"
     @State private var activityLevel = "Inactive"
     @State private var bodyConditionScore = "Ideal"
@@ -66,9 +68,45 @@ struct ContentView: View {
                                 .border(Color("SecondaryDark"), width: 8)
                                 .cornerRadius(12, antialiased: true)
                         ))
+                    } else if currentStep == .age {
+                        FormView(text: "How old is your dog ?", isModalVisible: $isModalVisible, field: AnyView(
+                            Stepper(
+                                onIncrement: {
+                                    if ageInMonths <= 11 {
+                                        ageInMonths += 1
+                                    } else {
+                                        ageInMonths += 12
+                                    }
+                                },
+                                onDecrement: {
+                                    // puppies stop breastfeed at 10 weeks
+                                    guard ageInMonths > 3 else { return }
+                                    
+                                    if ageInMonths <= 12 {
+                                        ageInMonths -= 1
+                                    } else {
+                                        ageInMonths -= 12
+                                    }
+                                },
+                                label: {
+                                    if ageInMonths < 12 {
+                                        Text("\(ageInMonths) months old")
+                                    } else {
+                                        Text("\(ageInMonths / 12) year\(ageInMonths > 12 ? "s" : "") old")
+                                    }
+                                })
+                            .font(Font.custom("Take Coffee", size: 24))
+                            .padding()
+                            .foregroundColor(.white)
+                            .colorMultiply(Color("SecondaryDark"))
+                            .border(Color("SecondaryDark"), width: 8)
+                            
+                            .cornerRadius(12, antialiased: true)
+                        )) 
+                        
                     } else if currentStep == .weight {
                         FormView(text: "What's your dog's weight ?", isModalVisible: $isModalVisible, field: AnyView(
-                            Stepper("\(weightTxt) kg", value: $weightTxt, in: 1...80, step: 1)
+                            Stepper(String(format: "%.1f kg", weightTxt), value: $weightTxt, in: 1...80, step: 0.1)
                                 .font(Font.custom("Take Coffee", size: 24))
                                 .padding()
                                 .foregroundColor(.white)
@@ -116,6 +154,13 @@ struct ContentView: View {
                     HStack{
                         if currentStep != .name {
                             Button{
+                                if currentStep == .bodyConditionScore {
+                                    var rer = 70.0 * pow(weightTxt, 0.75)
+                                    
+                                    var signalmentFactor = isSterilized == "Yes" ? 1.6 : 1.8
+                                    
+                                    
+                                }
                                 withAnimation{
                                     currentStep = currentStep.prev()
                                 }
