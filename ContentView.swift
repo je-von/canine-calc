@@ -30,6 +30,7 @@ struct ContentView: View {
     @State private var idealWeight = 0.0
     @State private var foodKcal = 4.5
     @State private var foodFrequency = 2.0
+    @State private var idealFoodGram = 0.0
     @State private var isModalVisible = false
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
@@ -214,8 +215,18 @@ struct ContentView: View {
                                     .cornerRadius(12, antialiased: true)
                             ))
                         }
+                    } else if currentStep == .resultWithFood {
+                        FormView(text: "You should feed \(nameTxt.capitalized) around", isModalVisible: $isModalVisible, field: AnyView(
+                            Text("\(Int(idealFoodGram)) gram/meal")
+                                .font(Font.custom("Take Coffee", size: 48))
+                                .foregroundColor(Color("PrimaryDark"))
+                                .padding(.top, 3)
+                        ))
                     }
                     HStack{
+                        if currentStep == .resultWithFood{
+                            Spacer()
+                        }
                         if currentStep != .name {
                             Button{
                                 guard currentStep != .name else { return }
@@ -247,66 +258,72 @@ struct ContentView: View {
                             }
                             Spacer()
                         }
-                        Button{
-                            guard !nameTxt.isEmpty else { return }
-                            
-                            if currentStep == .bodyConditionScore {
-                                var RER = 70.0 * pow(weightTxt, 0.75)
+                        if currentStep != .resultWithFood {
+                            Button{
+                                guard !nameTxt.isEmpty else { return }
                                 
-                                var signalmentFactor = isSterilized == "Yes" ? 1.6 : 1.8
-                                
-                                var ageFactor: Double
-                                if ageInMonths <= 4 {
-                                    ageFactor = 3
-                                } else if ageInMonths <= 7 {
-                                    ageFactor = 2
-                                } else if ageInMonths <= 12 {
-                                    ageFactor = 1.6
-                                } else if ageInMonths <= 7 * 12 {
-                                    ageFactor = 1
-                                } else {
-                                    ageFactor = 0.8
+                                if currentStep == .bodyConditionScore {
+                                    var RER = 70.0 * pow(weightTxt, 0.75)
+                                    
+                                    var signalmentFactor = isSterilized == "Yes" ? 1.6 : 1.8
+                                    
+                                    var ageFactor: Double
+                                    if ageInMonths <= 4 {
+                                        ageFactor = 3
+                                    } else if ageInMonths <= 7 {
+                                        ageFactor = 2
+                                    } else if ageInMonths <= 12 {
+                                        ageFactor = 1.6
+                                    } else if ageInMonths <= 7 * 12 {
+                                        ageFactor = 1
+                                    } else {
+                                        ageFactor = 0.8
+                                    }
+                                    
+                                    var activityLevelFactor: Double
+                                    if activityLevel == "Inactive" {
+                                        activityLevelFactor = 1
+                                    } else if activityLevel == "Moderate" {
+                                        activityLevelFactor = 1.2
+                                    } else if activityLevel == "Active" {
+                                        activityLevelFactor = 1.4
+                                    } else {
+                                        activityLevelFactor = 1.6
+                                    }
+                                    
+                                    var bodyConditionScoreFactor: Double
+                                    if bodyCondition < 4 {
+                                        bodyConditionScoreFactor = 1.2
+                                    } else if bodyCondition < 6 {
+                                        bodyConditionScoreFactor = 1
+                                    } else {
+                                        bodyConditionScoreFactor = 0.8
+                                    }
+                                    
+                                    MER = RER * signalmentFactor * ageFactor * activityLevelFactor * bodyConditionScoreFactor
+                                    
+                                    
+                                    idealWeight = (100 / ((bodyCondition - 5) * 10 + 100)) * weightTxt
+                                } else if currentStep == .food {
+                                    idealFoodGram = (MER / foodKcal) / foodFrequency
                                 }
                                 
-                                var activityLevelFactor: Double
-                                if activityLevel == "Inactive" {
-                                    activityLevelFactor = 1
-                                } else if activityLevel == "Moderate" {
-                                    activityLevelFactor = 1.2
-                                } else if activityLevel == "Active" {
-                                    activityLevelFactor = 1.4
-                                } else {
-                                    activityLevelFactor = 1.6
+                                withAnimation{
+                                    currentStep = currentStep.next()
                                 }
-                                
-                                var bodyConditionScoreFactor: Double
-                                if bodyCondition < 4 {
-                                    bodyConditionScoreFactor = 1.2
-                                } else if bodyCondition < 6 {
-                                    bodyConditionScoreFactor = 1
-                                } else {
-                                    bodyConditionScoreFactor = 0.8
-                                }
-                                
-                                MER = RER * signalmentFactor * ageFactor * activityLevelFactor * bodyConditionScoreFactor
-                               
-                        
-                                idealWeight = (100 / ((bodyCondition - 5) * 10 + 100)) * weightTxt
+                            } label: {
+                                Text(currentStep == .name ? "Start" : "Next")
+                                    .font(Font.custom("Take Coffee", size: 32))
+                                    .bold()
+                                    .padding(.vertical)
+                                    .padding(.horizontal, 50)
+                                    .background(nameTxt.isEmpty ? .gray : Color("PrimaryDark"))
+                                    .cornerRadius(12)
+                                    .foregroundColor(Color("PrimaryLight"))
                             }
-                            
-                            withAnimation{
-                                currentStep = currentStep.next()
-                            }
-                        } label: {
-                            Text(currentStep == .name ? "Start" : "Next")
-                                .font(Font.custom("Take Coffee", size: 32))
-                                .bold()
-                                .padding(.vertical)
-                                .padding(.horizontal, 50)
-                                .background(nameTxt.isEmpty ? .gray : Color("PrimaryDark"))
-                                .cornerRadius(12)
-                                .foregroundColor(Color("PrimaryLight"))
                         }
+                        
+                        
                     }
 //                    .border(.red)
                 }
