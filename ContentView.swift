@@ -19,23 +19,23 @@ enum Step: CaseIterable, Equatable{
 }
 struct ContentView: View {
     @State var nameTxt: String = ""
-    @State private var currentStep: Step = .reproductiveStatus
+    @State private var currentStep: Step = .name
     @State private var weightTxt = 1
     @State private var isSterilized = "No"
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
         UISegmentedControl.appearance().backgroundColor = .gray
-//        
-//        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32)], for: .highlighted)
+        //        
+        //        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32)], for: .highlighted)
         UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32)], for: .normal)
         
-//        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.cyan], for: .highlighted)
+        //        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.cyan], for: .highlighted)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
         
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
         
     }
-
+    
     var body: some View {
         ZStack{
             TimelineView(.animation) { ctx in
@@ -58,16 +58,15 @@ struct ContentView: View {
                 
                 VStack(spacing: 30){
                     if currentStep == .name{
-                        Text("Your Dog's Name:")
+                        Text("What's your dog's name?")
                             .font(Font.custom("Take Coffee", size: 32))
                             .foregroundColor(Color("SecondaryDark"))  
                         TextField("", text: $nameTxt)
                             .font(Font.custom("Take Coffee", size: 24))
-                            .padding()
-                        //warna cursor
-                        //                        .colorMultiply(Color("SecondaryDark"))
-                            .border(Color("SecondaryDark"), width: 8)
-                            .foregroundColor(Color("SecondaryDark"))
+                            .padding() 
+                            .foregroundColor(.white)
+                            .colorMultiply(Color("SecondaryDark"))
+                        .border(Color("SecondaryDark"), width: 8)
                             .cornerRadius(12, antialiased: true)
                     } else if currentStep == .weight {
                         Text("Your Dog's Weight:")
