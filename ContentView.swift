@@ -18,12 +18,12 @@ enum Step: CaseIterable, Equatable{
     }
 }
 struct ContentView: View {
-    @State var nameTxt: String = ""
+    @State private var nameTxt: String = ""
     @State private var currentStep: Step = .activityLevel
     @State private var weightTxt = 1
     @State private var isSterilized = "No"
     @State private var activityLevel = "Inactive"
-    
+    @State private var bodyConditionScore = "Ideal"
     @State private var isModalVisible = false
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
@@ -102,6 +102,16 @@ struct ContentView: View {
                         ))
                         
                         
+                    } else if currentStep == .bodyConditionScore {
+                        FormView(text: "What is your dog Body Condition Score ?", isModalVisible: $isModalVisible, field: AnyView(
+                            Picker("", selection: $bodyConditionScore) {
+                                ForEach(["Underweight", "Ideal", "Overweight"], id: \.self){
+                                    Text($0)
+                                }
+                            }
+                                .pickerStyle(SegmentedPickerStyle())
+                                .frame(height: 60)
+                        ))
                     }
                     HStack{
                         if currentStep != .name {
