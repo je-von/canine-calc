@@ -2,6 +2,7 @@ import SwiftUI
 import LiquidShape
 import LottieUI
 import SwiftUIVisualEffects
+
 enum Step: CaseIterable, Equatable{
     case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, result, food, resultWithFood
     func next() -> Self {
@@ -17,6 +18,8 @@ enum Step: CaseIterable, Equatable{
         return all[previous < all.startIndex ? all.index(before: all.endIndex) : previous]
     }
 }
+
+
 struct ContentView: View {
     // TODO: validate input, replace "your dog" with dog's name
     @State private var nameTxt: String = ""
@@ -33,6 +36,8 @@ struct ContentView: View {
     @State private var idealFoodGram = 0.0
     @State private var isModalVisible = false
     init() {
+//        print("name: \(Step.name.rawValue)")
+//        print("food: \(Step.food.rawValue)")
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
         UISegmentedControl.appearance().backgroundColor = .gray
         UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32) as Any], for: .normal)
@@ -263,49 +268,10 @@ struct ContentView: View {
                                 guard !nameTxt.isEmpty else { return }
                                 
                                 if currentStep == .bodyConditionScore {
-                                    var RER = 70.0 * pow(weightTxt, 0.75)
-                                    
-                                    var signalmentFactor = isSterilized == "Yes" ? 1.6 : 1.8
-                                    
-                                    var ageFactor: Double
-                                    if ageInMonths <= 4 {
-                                        ageFactor = 3
-                                    } else if ageInMonths <= 7 {
-                                        ageFactor = 2
-                                    } else if ageInMonths <= 12 {
-                                        ageFactor = 1.6
-                                    } else if ageInMonths <= 7 * 12 {
-                                        ageFactor = 1
-                                    } else {
-                                        ageFactor = 0.8
-                                    }
-                                    
-                                    var activityLevelFactor: Double
-                                    if activityLevel == "Inactive" {
-                                        activityLevelFactor = 1
-                                    } else if activityLevel == "Moderate" {
-                                        activityLevelFactor = 1.2
-                                    } else if activityLevel == "Active" {
-                                        activityLevelFactor = 1.4
-                                    } else {
-                                        activityLevelFactor = 1.6
-                                    }
-                                    
-                                    var bodyConditionScoreFactor: Double
-                                    if bodyCondition < 4 {
-                                        bodyConditionScoreFactor = 1.2
-                                    } else if bodyCondition < 6 {
-                                        bodyConditionScoreFactor = 1
-                                    } else {
-                                        bodyConditionScoreFactor = 0.8
-                                    }
-                                    
-                                    MER = RER * signalmentFactor * ageFactor * activityLevelFactor * bodyConditionScoreFactor
-                                    
-                                    
-                                    idealWeight = (100 / ((bodyCondition - 5) * 10 + 100)) * weightTxt
+                                    MER = getDailyCalorie()
+                                    idealWeight = getIdealWeight()
                                 } else if currentStep == .food {
-                                    idealFoodGram = (MER / foodKcal) / foodFrequency
+                                    idealFoodGram = getIdealFoodGram()
                                 }
                                 
                                 withAnimation{
@@ -325,7 +291,6 @@ struct ContentView: View {
                         
                         
                     }
-//                    .border(.red)
                 }
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal, 32)
@@ -357,19 +322,33 @@ struct ContentView: View {
                             .font(Font.custom("Take Coffee", size: 32))
                             .foregroundColor(Color("SecondaryDark"))
                         VStack{
-                            if currentStep == .result {
-                                TypewriterText(finalText: "Here are the results! If you need help calculating the right amount of food to fulfill the needed calories, click Next!")
+                            if currentStep == .age{
+                                TypewriterText(finalText: "Dog's calorie needs vary by age, with puppies needing higher levels for growth and development than adult dogs.")
+                            } else if currentStep == .weight {
+                                TypewriterText(finalText: "A dog's weight is crucial for calculating their calorie requirements and achieving their ideal weight.")
+                            } else if currentStep == .reproductiveStatus {
+                                TypewriterText(finalText: "Intact dogs need more calories for reproduction, neutered dogs require fewer due to hormonal changes affecting metabolism and weight.")
+                            } else if currentStep == .activityLevel {
+                                TypewriterText(finalText: "A dog's playfulness and energy level affect their calorie needs, with more active pups needing extra fuel to keep up with their playful antics!")
+                            } else if currentStep == .bodyConditionScore {
+                                TypewriterText(finalText: "Now, check your dog's body condition score by gently palpate and feel their ribs and vertebrae. If you're unsure, you can check the following image!")
+                            } else if currentStep == .result {
+                                TypewriterText(finalText: "Results are up! Need help with food calculations for the right calories? Click Next for a paw-some solution!")
+                            } else if currentStep == .food {
+                                TypewriterText(finalText: "To serve up the paw-fect portion for your pup, check the food info, especially the kcal/gram listed on the packaging!")
+                                
+                            } else if currentStep == .resultWithFood {
+                                TypewriterText(finalText: "Ta-da! Final results in! Thanks for using my services! Feed your pup right for a happy, healthy journey!")
                             } else {
                                 TypewriterText(finalText: "I'm here to help you calculate your dog's daily calories for a wag-tastic, healthy doggo!!")
                             }
                             
                         }
-                            .font(Font.custom("Take Coffee", size: 32))
+                            .font(Font.custom("Take Coffee", size: 28))
                             .multilineTextAlignment(.center)
                             .foregroundColor(Color("SecondaryDark"))
                             .padding(.vertical, 15)
-                            .padding(.horizontal, 38)
-                        
+                            .padding(.horizontal, 35)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Image("bubble")
@@ -378,7 +357,7 @@ struct ContentView: View {
                         .scaleEffect(CGSize(width: 1, height: -0.7))
                         .rotationEffect(.degrees(-10))
                     )
-                    .padding(10)
+                    .padding(8)
                     
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -410,6 +389,56 @@ struct ContentView: View {
         .background(Color("PrimaryLight"))
         
     }
+    
+    func getDailyCalorie() -> Double {
+        let RER = 70.0 * pow(weightTxt, 0.75)
+        
+        let signalmentFactor = isSterilized == "Yes" ? 1.6 : 1.8
+        
+        var ageFactor: Double
+        if ageInMonths <= 4 {
+            ageFactor = 3
+        } else if ageInMonths <= 7 {
+            ageFactor = 2
+        } else if ageInMonths <= 12 {
+            ageFactor = 1.6
+        } else if ageInMonths <= 7 * 12 {
+            ageFactor = 1
+        } else {
+            ageFactor = 0.8
+        }
+        
+        var activityLevelFactor: Double
+        if activityLevel == "Inactive" {
+            activityLevelFactor = 1
+        } else if activityLevel == "Moderate" {
+            activityLevelFactor = 1.2
+        } else if activityLevel == "Active" {
+            activityLevelFactor = 1.4
+        } else {
+            activityLevelFactor = 1.6
+        }
+        
+        var bodyConditionScoreFactor: Double
+        if bodyCondition < 4 {
+            bodyConditionScoreFactor = 1.2
+        } else if bodyCondition < 6 {
+            bodyConditionScoreFactor = 1
+        } else {
+            bodyConditionScoreFactor = 0.8
+        }
+        
+        return RER * signalmentFactor * ageFactor * activityLevelFactor * bodyConditionScoreFactor
+    }
+    
+    func getIdealWeight() -> Double {
+        return (100 / ((bodyCondition - 5) * 10 + 100)) * weightTxt
+    }
+    
+    func getIdealFoodGram() -> Double {
+        return (MER / foodKcal) / foodFrequency
+    }
+    
 }
 
 extension View {

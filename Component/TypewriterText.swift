@@ -18,7 +18,7 @@ struct TypewriterText: View {
             text = ""
         }
         if position < finalText.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
                 text.append(finalText[position])
                 typeWriter(at: position + 1)
             }

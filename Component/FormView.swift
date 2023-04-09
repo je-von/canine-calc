@@ -11,6 +11,8 @@ struct FormView: View {
     var text: String
     @Binding var isModalVisible: Bool
     var field: AnyView
+    var modalContent: AnyView?
+    var helpText: String?
     var body: some View {
         VStack{
             HStack{
