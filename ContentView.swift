@@ -34,7 +34,14 @@ struct ContentView: View {
     @State private var foodKcal = 4.5
     @State private var foodFrequency = 2.0
     @State private var idealFoodGram = 0.0
-    @State private var isModalVisible = false
+    @State private var isModalVisible = true
+    @State private var modalContent: AnyView? = AnyView(
+        VStack{
+            Image("bcs")
+                .resizable()
+                .scaledToFit()
+        }
+    )
     init() {
 //        print("name: \(Step.name.rawValue)")
 //        print("food: \(Step.food.rawValue)")
@@ -70,7 +77,7 @@ struct ContentView: View {
                 
                 VStack(spacing: 30){
                     if currentStep == .name {
-                        FormView(text: "What's your dog's name ?", isModalVisible: $isModalVisible, field: AnyView(
+                        FormView(text: "What's your dog's name ?", field: AnyView(
                             TextField("", text: $nameTxt)
                                 .font(Font.custom("Take Coffee", size: 24))
                                 .padding() 
@@ -80,7 +87,7 @@ struct ContentView: View {
                                 .cornerRadius(12, antialiased: true)
                         ))
                     } else if currentStep == .age {
-                        FormView(text: "How old is your dog ?", isModalVisible: $isModalVisible, field: AnyView(
+                        FormView(text: "How old is your dog ?", field: AnyView(
                             Stepper(
                                 onIncrement: {
                                     if ageInMonths <= 11 {
@@ -116,7 +123,7 @@ struct ContentView: View {
                         )) 
                         
                     } else if currentStep == .weight {
-                        FormView(text: "What's your dog's weight ?", isModalVisible: $isModalVisible, field: AnyView(
+                        FormView(text: "What's your dog's weight ?", field: AnyView(
                             Stepper(String(format: "%.1f kg", weightTxt), value: $weightTxt, in: 1...80, step: 0.1)
                                 .font(Font.custom("Take Coffee", size: 24))
                                 .padding()
@@ -128,7 +135,7 @@ struct ContentView: View {
                         )) 
                         
                     } else if currentStep == .reproductiveStatus {
-                        FormView(text: "Is your dog sterilized ?", isModalVisible: $isModalVisible, field: AnyView(
+                        FormView(text: "Is your dog sterilized ?", field: AnyView(
                             Picker("", selection: $isSterilized) {
                                 ForEach(["Yes", "No"], id: \.self){
                                     Text($0)
@@ -140,7 +147,7 @@ struct ContentView: View {
                         
                         
                     } else if currentStep == .activityLevel {
-                        FormView(text: "How active is your dog ?", isModalVisible: $isModalVisible, field: AnyView(
+                        FormView(text: "How active is your dog ?", field: AnyView(
                             Picker("", selection: $activityLevel) {
                                 ForEach(["Inactive", "Moderate", "Active", "Energetic"], id: \.self){
                                     Text($0)
@@ -152,7 +159,7 @@ struct ContentView: View {
                         
                         
                     } else if currentStep == .bodyConditionScore {
-                        FormView(text: "What is your dog's Body Condition Score ?", isModalVisible: $isModalVisible, field: AnyView(
+                        FormView(text: "What is your dog's Body Condition Score ?", field: AnyView(
                             VStack{
                                 Slider(value: $bodyCondition, in: 1...9, step: 1)
                                     .accentColor(Color("SecondaryDark"))
@@ -182,14 +189,14 @@ struct ContentView: View {
                         ))
                     } else if currentStep == .result {
                         HStack{
-                            FormView(text: "\(nameTxt.capitalized)'s daily calorie needs", isModalVisible: $isModalVisible, field: AnyView(
+                            FormView(text: "\(nameTxt.capitalized)'s daily calorie needs", field: AnyView(
                                 Text("\(Int(MER)) kcal/day")
                                     .font(Font.custom("Take Coffee", size: 48))
                                     .foregroundColor(Color("PrimaryDark"))
                                     .padding(.top, 3)
                             ))
                             Spacer()
-                            FormView(text: "\(nameTxt.capitalized)'s ideal weight", isModalVisible: $isModalVisible, field: AnyView(
+                            FormView(text: "\(nameTxt.capitalized)'s ideal weight", field: AnyView(
                                 Text("\(Int(idealWeight)) kg")
                                     .font(Font.custom("Take Coffee", size: 48))
                                     .foregroundColor(Color("PrimaryDark"))
@@ -198,7 +205,7 @@ struct ContentView: View {
                         }
                     } else if currentStep == .food {
                         HStack{
-                            FormView(text: "What's your dog's food kcal/gram ?", isModalVisible: $isModalVisible, field: AnyView(
+                            FormView(text: "What's your dog's food kcal/gram ?", field: AnyView(
                                 Stepper(String(format: "%.2f kcal/gram", foodKcal), value: $foodKcal, in: 0.1...100, step: 0.05)
                                     .font(Font.custom("Take Coffee", size: 24))
                                     .padding()
@@ -209,7 +216,7 @@ struct ContentView: View {
                                     .cornerRadius(12, antialiased: true)
                             ))
                             Spacer()
-                            FormView(text: "How frequent does your dog eat ?", isModalVisible: $isModalVisible, field: AnyView(
+                            FormView(text: "How frequent does your dog eat ?", field: AnyView(
                                 Stepper(String(format: "%.0f meals/day", foodFrequency), value: $foodFrequency, in: 1...10, step: 1)
                                     .font(Font.custom("Take Coffee", size: 24))
                                     .padding()
@@ -221,7 +228,7 @@ struct ContentView: View {
                             ))
                         }
                     } else if currentStep == .resultWithFood {
-                        FormView(text: "You should feed \(nameTxt.capitalized) around", isModalVisible: $isModalVisible, field: AnyView(
+                        FormView(text: "You should feed \(nameTxt.capitalized) around", field: AnyView(
                             Text("\(Int(idealFoodGram)) gram/meal")
                                 .font(Font.custom("Take Coffee", size: 48))
                                 .foregroundColor(Color("PrimaryDark"))
@@ -310,17 +317,20 @@ struct ContentView: View {
                     .zIndex(50)
                     
                     VStack(spacing: 0){
-                        Text("Hi, I'm ")
-                            .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("SecondaryDark"))
-                        + 
-                        Text("Bailey ")
-                            .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("PrimaryDark"))
-                        +
-                        Text("!")
-                            .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("SecondaryDark"))
+                        HStack{
+                            Text("Hi, I'm ")
+                                .font(Font.custom("Take Coffee", size: 32))
+                                .foregroundColor(Color("SecondaryDark"))
+                            + 
+                            Text("Bailey ")
+                                .font(Font.custom("Take Coffee", size: 32))
+                                .foregroundColor(Color("PrimaryDark"))
+                            +
+                            Text("!")
+                                .font(Font.custom("Take Coffee", size: 32))
+                                .foregroundColor(Color("SecondaryDark"))
+                        }
+                        .padding(.top, 50)
                         VStack{
                             if currentStep == .age{
                                 TypewriterText(finalText: "Dog's calorie needs vary by age, with puppies needing higher levels for growth and development than adult dogs.")
@@ -331,11 +341,23 @@ struct ContentView: View {
                             } else if currentStep == .activityLevel {
                                 TypewriterText(finalText: "A dog's playfulness and energy level affect their calorie needs, with more active pups needing extra fuel to keep up with their playful antics!")
                             } else if currentStep == .bodyConditionScore {
-                                TypewriterText(finalText: "Now, check your dog's body condition score by gently palpate and feel their ribs and vertebrae. If you're unsure, you can check the following image!")
+                                TypewriterText(finalText: "Gently check your dog and feel their ribs and vertebrae. Need guide? Click the Paw below!", showModal: {
+                                    showModal(AnyView(
+                                        VStack{
+                                            Image("bcs")
+                                                .resizable()
+                                                .scaledToFit()
+                                        }
+                                    ))
+                                })
                             } else if currentStep == .result {
                                 TypewriterText(finalText: "Results are up! Need help with food calculations for the right calories? Click Next for a paw-some solution!")
                             } else if currentStep == .food {
-                                TypewriterText(finalText: "To serve up the paw-fect portion for your pup, check the food info, especially the kcal/gram listed on the packaging!")
+                                TypewriterText(finalText: "To serve up the paw-fect portion for your pup, check the kcal/gram listed on your dog's food packaging! Need example? Click the Paw!", showModal: {
+                                    showModal(AnyView(
+                                        Text("food kcal")
+                                    ))
+                                })
                                 
                             } else if currentStep == .resultWithFood {
                                 TypewriterText(finalText: "Ta-da! Final results in! Thanks for using my services! Feed your pup right for a happy, healthy journey!")
@@ -347,7 +369,7 @@ struct ContentView: View {
                             .font(Font.custom("Take Coffee", size: 28))
                             .multilineTextAlignment(.center)
                             .foregroundColor(Color("SecondaryDark"))
-                            .padding(.vertical, 15)
+                            .padding(.vertical, 5)
                             .padding(.horizontal, 35)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -378,16 +400,36 @@ struct ContentView: View {
             
             if isModalVisible {
                 
-                VStack{
-                    Text("Info blablabla").foregroundColor(.black).border(.green)
-                }.frame(width: 800, height:1000)
-                    .background(BlurEffect()).blurEffectStyle(.systemMaterialLight)
-                    .cornerRadius(20, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                VStack(alignment: .trailing){
+                    Button{
+                        withAnimation{
+                            isModalVisible = false
+                        }
+                    }label: {
+                        Image(systemName: "xmark")
+                            .foregroundColor(Color("SecondaryDark"))
+                    }
+                    .padding([.top, .trailing])
+                    modalContent
+                        .padding() 
+                }
+                .background(BlurEffect()).blurEffectStyle(.systemMaterialLight)
+                .cornerRadius(20, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(20)
+                    
             }
         }
         
         .background(Color("PrimaryLight"))
         
+    }
+    
+    func showModal(_ content: AnyView){
+        modalContent = content
+        withAnimation{
+            isModalVisible = true            
+        }
     }
     
     func getDailyCalorie() -> Double {
