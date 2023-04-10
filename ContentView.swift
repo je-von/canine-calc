@@ -34,14 +34,8 @@ struct ContentView: View {
     @State private var foodKcal = 4.5
     @State private var foodFrequency = 2.0
     @State private var idealFoodGram = 0.0
-    @State private var isModalVisible = true
-    @State private var modalContent: AnyView? = AnyView(
-        VStack{
-            Image("bcs")
-                .resizable()
-                .scaledToFit()
-        }
-    )
+    @State private var isModalVisible = false
+    @State private var modalContent: AnyView?
     init() {
 //        print("name: \(Step.name.rawValue)")
 //        print("food: \(Step.food.rawValue)")
