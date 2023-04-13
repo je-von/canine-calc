@@ -337,7 +337,7 @@ struct ContentView: View {
                             } else if currentStep == .result {
                                 TypewriterText(finalText: "Results are up! Need help with food calculations for the right calories? Click Next for a paw-some solution!")
                             } else if currentStep == .food {
-                                TypewriterText(finalText: "To serve up the paw-fect portion for your pup, check the kcal/gram listed on your dog's food packaging! Need example? Click the Paw!", showModal: {
+                                TypewriterText(finalText: "To serve the paw-fect portion for your pup, check the kcal/gram listed on your dog's food packaging! Need example? Click the Paw!", showModal: {
                                     showModal(AnyView(
                                         VStack{
                                             Text("Source: Personal Documentation")
@@ -355,7 +355,7 @@ struct ContentView: View {
                         .font(Font.custom("Take Coffee", size: 28))
                         .multilineTextAlignment(.center)
                         .foregroundColor(Color("SecondaryDark"))
-                        .padding(.vertical, 5)
+                        .padding(.bottom, -10)
                         .padding(.horizontal, 35)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -363,7 +363,7 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .padding(.top, -100)
-                        .scaleEffect(CGSize(width: -1.1, height: -0.9))
+                        .scaleEffect(CGSize(width: -1.1, height: -0.95))
                     )
                     .padding(8)
                     
