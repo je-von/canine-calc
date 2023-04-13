@@ -81,7 +81,7 @@ struct ContentView: View {
                                 .cornerRadius(12, antialiased: true)
                         ))
                     } else if currentStep == .age {
-                        FormView(text: "How old is your dog ?", field: AnyView(
+                        FormView(text: "How old is \(nameTxt.capitalized) ?", field: AnyView(
                             Stepper(
                                 onIncrement: {
                                     if ageInMonths <= 11 {
@@ -297,26 +297,14 @@ struct ContentView: View {
                 .padding(.horizontal, 32)
                 
                 HStack{
-                    ZStack{
-                        LottieView(state: LUStateData(type: .name("wave", .main), speed: 0.5, loopMode: .loop))
-                            .zIndex(50)
-                            .opacity(currentStep == .name || currentStep == .result ? 1 : 0)
-                        LottieView(state: LUStateData(type: .name("think", .main), speed: 0.5, loopMode: .loop))
-                            .opacity(currentStep != .name && currentStep != .result ? 1 : 0)
-                            .scaleEffect(1.05)
-                    }
-                    .scaledToFill()
-                    .frame(width: 285, height: 600)
-                    .padding(.vertical, -40)
-                    .zIndex(50)
-                    
+                    Spacer()
                     VStack(spacing: 0){
                         HStack{
                             Text("Hi, I'm ")
                                 .font(Font.custom("Take Coffee", size: 32))
                                 .foregroundColor(Color("SecondaryDark"))
                             + 
-                            Text("Bailey ")
+                            Text("Kisses ")
                                 .font(Font.custom("Take Coffee", size: 32))
                                 .foregroundColor(Color("PrimaryDark"))
                             +
@@ -324,7 +312,7 @@ struct ContentView: View {
                                 .font(Font.custom("Take Coffee", size: 32))
                                 .foregroundColor(Color("SecondaryDark"))
                         }
-                        .padding(.top, 50)
+                        .padding(.top, 100)
                         VStack{
                             if currentStep == .age{
                                 TypewriterText(finalText: "Dog's calorie needs vary by age, with puppies needing higher levels for growth and development than adult dogs.")
@@ -341,6 +329,7 @@ struct ContentView: View {
                                             Image("bcs")
                                                 .resizable()
                                                 .scaledToFit()
+                                            Text("Source: Nestlé Purina PetCare")
                                         }
                                     ))
                                 })
@@ -349,7 +338,9 @@ struct ContentView: View {
                             } else if currentStep == .food {
                                 TypewriterText(finalText: "To serve up the paw-fect portion for your pup, check the kcal/gram listed on your dog's food packaging! Need example? Click the Paw!", showModal: {
                                     showModal(AnyView(
-                                        Text("food kcal")
+                                        VStack{
+                                            Text("Source: Personal Documentation")
+                                        }
                                     ))
                                 })
                                 
@@ -360,21 +351,33 @@ struct ContentView: View {
                             }
                             
                         }
-                            .font(Font.custom("Take Coffee", size: 28))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(Color("SecondaryDark"))
-                            .padding(.vertical, 5)
-                            .padding(.horizontal, 35)
+                        .font(Font.custom("Take Coffee", size: 28))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color("SecondaryDark"))
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 35)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Image("bubble")
                         .resizable()
-                        .scaledToFill()
-                        .scaleEffect(CGSize(width: 1, height: -0.7))
-                        .rotationEffect(.degrees(-10))
+                        .scaledToFit()
+                        .padding(.top, -100)
+                        .scaleEffect(CGSize(width: -1.1, height: -0.9))
                     )
                     .padding(8)
                     
+                    ZStack{
+                        LottieView(state: LUStateData(type: .name("kisses", .main), speed: 0.4, loopMode: .loop))
+                            .zIndex(50)
+//                            .scaleEffect(x: -1, y: 1.0)
+                    }
+                    .scaledToFill()
+                    .frame(width: 300, height: 600)
+                    .padding(.vertical, -40)
+                    .padding(.trailing, 100)
+//                    .frame(width: 300)
+                    .zIndex(50)
+                    Spacer()
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 
