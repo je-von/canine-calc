@@ -54,10 +54,11 @@ struct ContentView: View {
             TimelineView(.animation) { ctx in
                 Liquid.Shape(
                     time: 0.5 * ctx.date.timeIntervalSince1970,
-                    amplitude: 24,
+                    amplitude: 25,
                     contentMode: .contain
                 )
-                .frame(height: 100)
+                .frame(height: 150)
+                .padding(.bottom, -20)
                 .foregroundColor(Color("PrimaryDark"))
             }
             .frame(minHeight: 0, maxHeight: .infinity, alignment: .bottom)
@@ -117,7 +118,7 @@ struct ContentView: View {
                         )) 
                         
                     } else if currentStep == .weight {
-                        FormView(text: "What's your dog's weight ?", field: AnyView(
+                        FormView(text: "What's \(nameTxt.capitalized)'s weight ?", field: AnyView(
                             Stepper(String(format: "%.1f kg", weightTxt), value: $weightTxt, in: 1...80, step: 0.1)
                                 .font(Font.custom("Take Coffee", size: 24))
                                 .padding()
@@ -129,7 +130,7 @@ struct ContentView: View {
                         )) 
                         
                     } else if currentStep == .reproductiveStatus {
-                        FormView(text: "Is your dog sterilized ?", field: AnyView(
+                        FormView(text: "Is \(nameTxt.capitalized) sterilized ?", field: AnyView(
                             Picker("", selection: $isSterilized) {
                                 ForEach(["Yes", "No"], id: \.self){
                                     Text($0)
@@ -141,7 +142,7 @@ struct ContentView: View {
                         
                         
                     } else if currentStep == .activityLevel {
-                        FormView(text: "How active is your dog ?", field: AnyView(
+                        FormView(text: "How active is \(nameTxt.capitalized) ?", field: AnyView(
                             Picker("", selection: $activityLevel) {
                                 ForEach(["Inactive", "Moderate", "Active", "Energetic"], id: \.self){
                                     Text($0)
@@ -153,7 +154,7 @@ struct ContentView: View {
                         
                         
                     } else if currentStep == .bodyConditionScore {
-                        FormView(text: "What is your dog's Body Condition Score ?", field: AnyView(
+                        FormView(text: "What is \(nameTxt.capitalized)'s Body Condition Score ?", field: AnyView(
                             VStack{
                                 Slider(value: $bodyCondition, in: 1...9, step: 1)
                                     .accentColor(Color("SecondaryDark"))
@@ -199,7 +200,7 @@ struct ContentView: View {
                         }
                     } else if currentStep == .food {
                         HStack{
-                            FormView(text: "What's your dog's food kcal/gram ?", field: AnyView(
+                            FormView(text: "What's \(nameTxt.capitalized)'s food kcal/gram ?", field: AnyView(
                                 Stepper(String(format: "%.2f kcal/gram", foodKcal), value: $foodKcal, in: 0.1...100, step: 0.05)
                                     .font(Font.custom("Take Coffee", size: 24))
                                     .padding()
@@ -210,7 +211,7 @@ struct ContentView: View {
                                     .cornerRadius(12, antialiased: true)
                             ))
                             Spacer()
-                            FormView(text: "How frequent does your dog eat ?", field: AnyView(
+                            FormView(text: "How frequent does \(nameTxt.capitalized) eat ?", field: AnyView(
                                 Stepper(String(format: "%.0f meals/day", foodFrequency), value: $foodFrequency, in: 1...10, step: 1)
                                     .font(Font.custom("Take Coffee", size: 24))
                                     .padding()
