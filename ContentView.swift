@@ -340,7 +340,13 @@ struct ContentView: View {
                                 TypewriterText(finalText: "To serve the paw-fect portion for your pup, check the kcal/gram listed on your dog's food packaging! Need example? Click the Paw!", showModal: {
                                     showModal(AnyView(
                                         VStack{
-                                            Text("Source: Personal Documentation")
+                                            Image("food_label")
+                                                .resizable()
+                                                .scaledToFit()
+                                            Text("If the units shown is not \"kcal/g\", please convert it first!")
+                                                .font(Font.custom("Take Coffee", size: 24))
+                                                .foregroundColor(Color("SecondaryDark"))
+                                            Text("Source: Royal Canin, KIN Dog Food, Pedigree Petfoods")
                                         }
                                     ))
                                 })
@@ -358,10 +364,10 @@ struct ContentView: View {
                         .padding(.bottom, -10)
                         .padding(.horizontal, 35)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(width: 400)
                     .background(Image("bubble")
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
                         .padding(.top, -100)
                         .scaleEffect(CGSize(width: -1.1, height: -0.95))
                     )
@@ -375,7 +381,6 @@ struct ContentView: View {
                     .scaledToFill()
                     .frame(width: 300, height: 600)
                     .padding(.vertical, -40)
-                    .padding(.trailing, 100)
 //                    .frame(width: 300)
                     .zIndex(50)
                     Spacer()
@@ -397,7 +402,6 @@ struct ContentView: View {
             
             
             if isModalVisible {
-                
                 VStack(alignment: .trailing){
                     Button{
                         withAnimation{
@@ -415,7 +419,6 @@ struct ContentView: View {
                 .cornerRadius(20, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(20)
-                    
             }
         }
         
