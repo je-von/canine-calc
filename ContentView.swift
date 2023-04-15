@@ -37,8 +37,6 @@ struct ContentView: View {
     @State private var isModalVisible = false
     @State private var modalContent: AnyView?
     init() {
-//        print("name: \(Step.name.rawValue)")
-//        print("food: \(Step.food.rawValue)")
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
         UISegmentedControl.appearance().backgroundColor = .gray
         UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32) as Any], for: .normal)
@@ -57,17 +55,22 @@ struct ContentView: View {
                     amplitude: 25,
                     contentMode: .contain
                 )
-                .frame(height: 150)
+                .frame(height: 130)
                 .padding(.bottom, -20)
-                .foregroundColor(Color("PrimaryDark"))
+                .foregroundColor(.gray)
             }
             .frame(minHeight: 0, maxHeight: .infinity, alignment: .bottom)
             VStack{
-                Text("Welcome to CanineCalc !")
-                    .padding(.top)
-                    .frame(maxWidth: .infinity)
-                    .font(Font.custom("Take Coffee", size: 48))
-                    .foregroundColor(Color("SecondaryDark"))
+                HStack{
+                    Text("Welcome to ")
+                        .foregroundColor(Color("SecondaryDark"))
+                    + 
+                    Text("CanineCalc ")
+                        .foregroundColor(Color("PrimaryDark"))
+                    +
+                    Text("!")
+                        .foregroundColor(Color("SecondaryDark"))
+                }.font(Font.custom("Take Coffee", size: 48))
                 
                 
                 VStack(spacing: 30){
@@ -337,7 +340,7 @@ struct ContentView: View {
                             } else if currentStep == .result {
                                 TypewriterText(finalText: "Results are up! Need help with food calculations for the right calories? Click Next for a paw-some solution!")
                             } else if currentStep == .food {
-                                TypewriterText(finalText: "To serve the paw-fect portion for your pup, check the kcal/gram listed on your dog's food packaging! Need example? Click the Paw!", showModal: {
+                                TypewriterText(finalText: "To serve the paw-fect portion for your pup, check the kcal/gram listed on your dog's food label! Need example? Click the Paw!", showModal: {
                                     showModal(AnyView(
                                         VStack{
                                             Image("food_label")
@@ -362,14 +365,15 @@ struct ContentView: View {
                         .multilineTextAlignment(.center)
                         .foregroundColor(Color("SecondaryDark"))
                         .padding(.bottom, -10)
-                        .padding(.horizontal, 35)
+                        .padding(.leading, 20)
+                        .padding(.trailing, 40)
                     }
-                    .frame(width: 400)
+                    .frame(width: 500)
                     .background(Image("bubble")
                         .resizable()
                         .scaledToFill()
                         .padding(.top, -100)
-                        .scaleEffect(CGSize(width: -1.1, height: -0.95))
+                        .scaleEffect(CGSize(width: -1.1, height: -1))
                     )
                     .padding(8)
                     

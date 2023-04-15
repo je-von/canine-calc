@@ -4,6 +4,7 @@ struct TypewriterText: View {
     let finalText: String
     var showModal: (() -> Void)?
     @State private var hasFinished: Bool = false
+    @State private var pawOpacity = 0.8
     var body: some View {
         VStack(spacing: 0){
             ZStack (alignment: .top){
@@ -16,7 +17,16 @@ struct TypewriterText: View {
                 Button{
                     showModal!()
                 }label: {
-                    Image(systemName: "pawprint.circle").font(.system(size: 40)).foregroundColor(Color("PrimaryDark"))
+                    Image(systemName: "pawprint.circle")
+                        .font(.system(size: 40))
+                        .foregroundColor(Color("PrimaryDark"))
+                        .opacity(pawOpacity)
+                        .scaleEffect(pawOpacity)
+                        .onAppear {
+                            withAnimation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true)) {
+                                pawOpacity = 1
+                            }
+                        }
                 }
                 .padding(.top, 5)
             }
