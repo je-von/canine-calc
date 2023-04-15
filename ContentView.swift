@@ -73,7 +73,7 @@ struct ContentView: View {
                 }.font(Font.custom("Take Coffee", size: 48))
                 
                 
-                VStack(spacing: 30){
+                VStack(spacing: 20){
                     if currentStep == .name {
                         FormView(text: "What's your dog's name ?", field: AnyView(
                             TextField("", text: $nameTxt)
@@ -295,6 +295,25 @@ struct ContentView: View {
                         }
                         
                         
+                    }
+                    
+                    if currentStep == .resultWithFood{
+                        Button{
+                            showModal(AnyView(
+                                VStack{
+                                    Text("Why is it important")
+                                }
+                            ))
+                        } label: {
+                            Text("Why is it important?")
+                                .font(Font.custom("Take Coffee", size: 32))
+                                .bold()
+                                .padding(.vertical)
+                                .padding(.horizontal, 50)
+                                .background(Color("PrimaryDark"))
+                                .cornerRadius(12)
+                                .foregroundColor(Color("PrimaryLight"))
+                        }
                     }
                 }
                 .frame(maxHeight: .infinity)
