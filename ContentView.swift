@@ -21,7 +21,6 @@ enum Step: CaseIterable, Equatable{
 
 
 struct ContentView: View {
-    // TODO: validate input, replace "your dog" with dog's name
     @State private var nameTxt: String = ""
     @State private var currentStep: Step = .name
     @State private var weightTxt = 5.0
@@ -305,8 +304,44 @@ struct ContentView: View {
                     if currentStep == .resultWithFood{
                         Button{
                             showModal(AnyView(
-                                VStack{
-                                    Text("Why is it important")
+                                VStack(spacing: 30){
+                                    Text("Why is it important ?")
+                                        .font(Font.custom("Take Coffee", size: 48))
+                                        .foregroundColor(Color("SecondaryDark"))
+                                    HStack{
+                                        Image("hattie")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .cornerRadius(8)
+                                        VStack(alignment: .leading){
+                                            Text("Meet Hattie")
+                                                .font(Font.custom("Take Coffee", size: 32))
+                                                .foregroundColor(Color("SecondaryDark"))
+                                            Text("The UK's heaviest dog, known as \"Hattie the Fattie\", has died from liver failure after reaching a weight of 50kg on a diet of burgers. Despite shedding half of her body weight through a strict weight-controlled diet, Hattie could not overcome her health issues.")
+                                                .foregroundColor(Color("SecondaryDark"))
+                                            Text("Source: dailystar.co.uk")
+                                        }
+                                        
+                                    }
+                                    HStack{
+                                        VStack(alignment: .trailing){
+                                            Text("Meet Missy")
+                                                .font(Font.custom("Take Coffee", size: 32))
+                                                .foregroundColor(Color("SecondaryDark"))
+                                            Text("Missy has died one month after being rescued. Officials say Missy weighed less than 30 pounds when she was brought in, but she was supposed to weigh over 50 pounds. This made her one of the most severe cases of malnutrition seen by Evansville Animal Control officials.")
+                                                .multilineTextAlignment(.trailing)
+                                                .foregroundColor(Color("SecondaryDark"))
+                                            Text("Source: 14news.com")
+                                        }
+                                        Image("missy")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .cornerRadius(8)
+                                    }
+                                    TypewriterText(finalText: "Feed your furry friend right, because a healthy weight can be a matter of life and death for your beloved dog - remember, prevention is key, don't wait until it's too late!")
+                                        .font(Font.custom("Take Coffee", size: 32))
+                                        .foregroundColor(Color("PrimaryDark"))
+                                        .multilineTextAlignment(.center)
                                 }
                             ))
                         } label: {
