@@ -19,6 +19,7 @@ struct FormView: View {
                 Text(text)
                     .font(Font.custom("Take Coffee", size: 32))
                     .foregroundColor(Color("SecondaryDark")) 
+                    .multilineTextAlignment(.center)
 //                Button{
 //                    withAnimation{
 //                        isModalVisible = true

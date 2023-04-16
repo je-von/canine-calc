@@ -4,7 +4,7 @@ import LottieUI
 import SwiftUIVisualEffects
 
 enum Step: CaseIterable, Equatable{
-    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, result, food, resultWithFood
+    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, result, food, resultWithFood 
     func next() -> Self {
         let all = Self.allCases
         let idx = all.firstIndex(of: self)!
@@ -36,6 +36,7 @@ struct ContentView: View {
     @State private var idealFoodGram = 0.0
     @State private var isModalVisible = false
     @State private var modalContent: AnyView?
+    @State private var errorMessage: String = ""
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
         UISegmentedControl.appearance().backgroundColor = .gray
@@ -75,7 +76,7 @@ struct ContentView: View {
                 
                 VStack(spacing: 20){
                     if currentStep == .name {
-                        FormView(text: "What's your dog's name ?", field: AnyView(
+                        FormView(text: "What's your precious little pup's name ?", field: AnyView(
                             TextField("", text: $nameTxt)
                                 .font(Font.custom("Take Coffee", size: 24))
                                 .padding() 
@@ -270,7 +271,11 @@ struct ContentView: View {
                         }
                         if currentStep != .resultWithFood {
                             Button{
-                                guard !nameTxt.isEmpty else { return }
+                                if nameTxt.isEmpty { 
+                                    errorMessage = "Pretty please, tell us your doggie's name first! It's just to add a dash of cuteness and make it extra special!"
+                                    return 
+                                }
+                                errorMessage = ""
                                 
                                 if currentStep == .bodyConditionScore {
                                     MER = getDailyCalorie()
@@ -337,7 +342,9 @@ struct ContentView: View {
                         }
                         .padding(.top, 100)
                         VStack{
-                            if currentStep == .age{
+                            if !errorMessage.isEmpty {
+                                TypewriterText(finalText: errorMessage)
+                            } else if currentStep == .age{
                                 TypewriterText(finalText: "Dog's calorie needs vary by age, with puppies needing higher levels for growth and development than adult dogs.")
                             } else if currentStep == .weight {
                                 TypewriterText(finalText: "A dog's weight is crucial for calculating their calorie requirements and achieving their ideal weight.")
@@ -397,9 +404,8 @@ struct ContentView: View {
                     .padding(8)
                     
                     ZStack{
-                        LottieView(state: LUStateData(type: .name("kisses", .main), speed: 0.4, loopMode: .loop))
+                        LottieView(state: LUStateData(type: .name("kisses", .main), speed: 0.5, loopMode: .loop))
                             .zIndex(50)
-//                            .scaleEffect(x: -1, y: 1.0)
                     }
                     .scaledToFill()
                     .frame(width: 300, height: 600)
