@@ -186,14 +186,13 @@ struct ContentView: View {
                             }
                         ))
                     } else if currentStep == .result {
-                        HStack{
+                        HStack(spacing: 50){
                             FormView(text: "\(nameTxt.capitalized)'s daily calorie needs", field: AnyView(
                                 Text("\(Int(MER)) kcal/day")
                                     .font(Font.custom("Take Coffee", size: 48))
                                     .foregroundColor(Color("PrimaryDark"))
                                     .padding(.top, 3)
                             ))
-                            Spacer()
                             FormView(text: "\(nameTxt.capitalized)'s ideal weight", field: AnyView(
                                 Text("\(Int(idealWeight)) kg")
                                     .font(Font.custom("Take Coffee", size: 48))
