@@ -57,7 +57,7 @@ struct ContentView: View {
                 )
                 .frame(height: 130)
                 .padding(.bottom, -20)
-                .foregroundColor(.gray)
+                .foregroundColor(Color("Accent"))
             }
             .frame(minHeight: 0, maxHeight: .infinity, alignment: .bottom)
             VStack{
