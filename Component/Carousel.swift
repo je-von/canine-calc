@@ -54,6 +54,7 @@ struct Carousel: View{
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             .frame(height: 750)
+            .padding(.horizontal)
             Button{
                 withAnimation{
                     slideIndex = slideIndex < 2 ? slideIndex + 1 : slideIndex
