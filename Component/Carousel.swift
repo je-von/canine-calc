@@ -13,6 +13,8 @@ struct Carousel: View{
                     .foregroundColor(Color("SecondaryDark"))
                     .font(.system(size: 32, weight: .bold))
             }
+            .opacity(slideIndex == 0 ? 0 : 1)
+            Spacer()
             TabView(selection: $slideIndex) {
                 VStack(spacing: 15){
                     Image("hattie")
@@ -58,6 +60,7 @@ struct Carousel: View{
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             .frame(height: 750)
             .padding(.horizontal)
+            Spacer()
             Button{
                 withAnimation{
                     slideIndex = slideIndex < 2 ? slideIndex + 1 : slideIndex
@@ -67,6 +70,7 @@ struct Carousel: View{
                     .foregroundColor(Color("SecondaryDark"))
                     .font(.system(size: 32, weight: .bold))
             }
+            .opacity(slideIndex == 2 ? 0 : 1)
         }
     }
 }
