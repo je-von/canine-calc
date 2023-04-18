@@ -398,29 +398,43 @@ struct ContentView: View {
                         .scaleEffect(CGSize(width: -1.1, height: -1))
                     )
                     .padding(8)
-                    
-                    ZStack{
-                        LottieView(state: LUStateData(type: .name("kisses", .main), speed: 0.4, loopMode: .loop))
-                            .zIndex(50)
-                            .opacity(currentMascot == .kisses ? 1 : 0)
-                            .onTapGesture{
-                                withAnimation{
-                                    currentMascot = .hershey
-                                }
+                    VStack{
+                        if currentStep == .name{
+                            HStack(alignment: .top){
+                                Text("Try to poke me!")
+                                    .font(Font.custom("Take Coffee", size: 24))
+                                    .foregroundColor(Color("SecondaryDark"))
+                                Image("arrow")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 80)
+                                    .padding(.leading, -15)
                             }
-                        LottieView(state: LUStateData(type: .name("hershey", .main), speed: 0.7, loopMode: .loop))
-                            .zIndex(50)
-                            .opacity(currentMascot == .hershey ? 1 : 0)
-                            .onTapGesture{
-                                withAnimation{
-                                    currentMascot = .kisses
+                            .padding(.vertical, -80)
+                        }
+                        ZStack{
+                            LottieView(state: LUStateData(type: .name("kisses", .main), speed: 0.4, loopMode: .loop))
+                                .zIndex(50)
+                                .opacity(currentMascot == .kisses ? 1 : 0)
+                                .onTapGesture{
+                                    withAnimation{
+                                        currentMascot = .hershey
+                                    }
                                 }
-                            }
+                            LottieView(state: LUStateData(type: .name("hershey", .main), speed: 0.7, loopMode: .loop))
+                                .zIndex(50)
+                                .opacity(currentMascot == .hershey ? 1 : 0)
+                                .onTapGesture{
+                                    withAnimation{
+                                        currentMascot = .kisses
+                                    }
+                                }
+                        }
+                        .scaledToFill()
+                        .frame(width: 300, height: 600)
+                        .padding(.vertical, -40)
+                        .zIndex(50)
                     }
-                    .scaledToFill()
-                    .frame(width: 300, height: 600)
-                    .padding(.vertical, -40)
-                    .zIndex(50)
                     Spacer()
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
