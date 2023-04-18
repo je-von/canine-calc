@@ -243,6 +243,13 @@ struct ContentView: View {
                                     currentStep = currentStep.prev()
                                 }
                             } label: {
+//                                Image(systemName: "chevron.left")
+//                                    .font(.system(size: 34))
+//                                    .padding(.vertical, 17)
+//                                    .padding(.horizontal, 22)
+//                                    .background(.gray)
+//                                    .cornerRadius(12)
+//                                    .foregroundColor(Color("PrimaryLight"))
                                 Text("Back")
                                     .font(Font.custom("Take Coffee", size: 32))
                                     .bold()
@@ -258,7 +265,7 @@ struct ContentView: View {
                                 }
                             } label: {
                                 Image(systemName: "gobackward")
-                                    .font(.system(size: 28))
+                                    .font(.system(size: 25.5, weight: .heavy))
                                     .padding(.vertical)
                                     .padding(.horizontal, 20)
                                     .background(.gray)
