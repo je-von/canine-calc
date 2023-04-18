@@ -43,9 +43,7 @@ struct ContentView: View {
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color("SecondaryDark"))
         UISegmentedControl.appearance().backgroundColor = .gray
-        UISegmentedControl.appearance().setTitleTextAttributes([.font : UIFont(name: "Take Coffee", size: 32) as Any], for: .normal)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
-        
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor : UIColor.white, .font : UIFont(name: "Take Coffee", size: 32) as Any], for: .normal)
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
         
         UISlider.appearance().setThumbImage(UIImage(systemName: "pawprint.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .regular, scale: .default )), for: .normal)
