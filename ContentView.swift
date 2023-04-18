@@ -233,9 +233,6 @@ struct ContentView: View {
                         ))
                     }
                     HStack{
-                        if currentStep == .resultWithFood{
-                            Spacer()
-                        }
                         if currentStep != .name {
                             Button{
                                 guard currentStep != .name else { return }
@@ -243,13 +240,6 @@ struct ContentView: View {
                                     currentStep = currentStep.prev()
                                 }
                             } label: {
-//                                Image(systemName: "chevron.left")
-//                                    .font(.system(size: 34))
-//                                    .padding(.vertical, 17)
-//                                    .padding(.horizontal, 22)
-//                                    .background(.gray)
-//                                    .cornerRadius(12)
-//                                    .foregroundColor(Color("PrimaryLight"))
                                 Text("Back")
                                     .font(Font.custom("Take Coffee", size: 32))
                                     .bold()
@@ -274,7 +264,6 @@ struct ContentView: View {
                             }
                             Spacer()
                         }
-                        if currentStep != .resultWithFood {
                             Button{
                                 if nameTxt.isEmpty {
                                     errorMessage = "Pretty please, tell us your doggie's name first! It's just to add a dash of cuteness and make it extra special!"
@@ -289,11 +278,31 @@ struct ContentView: View {
                                     idealFoodGram = getIdealFoodGram()
                                 }
                                 
-                                withAnimation{
-                                    currentStep = currentStep.next()
+                                if currentStep == .resultWithFood{
+                                    showModal(AnyView(
+                                        VStack{
+                                            VStack{
+                                                Text("Why is it ")
+                                                    .foregroundColor(Color("SecondaryDark"))
+                                                +
+                                                Text("important ")
+                                                    .foregroundColor(Color("PrimaryDark"))
+                                                +
+                                                Text("?")
+                                                    .foregroundColor(Color("SecondaryDark"))
+                                            }
+                                            .font(Font.custom("Take Coffee", size: 48))
+                                            
+                                            Carousel()
+                                        }
+                                    ))
+                                } else {
+                                    withAnimation{
+                                        currentStep = currentStep.next()
+                                    }
                                 }
                             } label: {
-                                Text(currentStep == .name ? "Start" : "Next")
+                                Text(currentStep == .name ? "Start" : currentStep == .resultWithFood ? "Why is it important ?" : "Next")
                                     .font(Font.custom("Take Coffee", size: 32))
                                     .bold()
                                     .padding(.vertical)
@@ -303,40 +312,6 @@ struct ContentView: View {
                                     .foregroundColor(Color("PrimaryLight"))
                             }
                         }
-                        
-                        
-                    }
-                    
-                    if currentStep == .resultWithFood{
-                        Button{
-                            showModal(AnyView(
-                                VStack{
-                                    VStack{
-                                        Text("Why is it ")
-                                            .foregroundColor(Color("SecondaryDark"))
-                                        +
-                                        Text("important ")
-                                            .foregroundColor(Color("PrimaryDark"))
-                                        +
-                                        Text("?")
-                                            .foregroundColor(Color("SecondaryDark"))
-                                    }
-                                    .font(Font.custom("Take Coffee", size: 48))
-                                    
-                                    Carousel()
-                                }
-                            ))
-                        } label: {
-                            Text("Why is it important ?")
-                                .font(Font.custom("Take Coffee", size: 32))
-                                .bold()
-                                .padding(.vertical)
-                                .padding(.horizontal, 50)
-                                .background(Color("PrimaryDark"))
-                                .cornerRadius(12)
-                                .foregroundColor(Color("PrimaryLight"))
-                        }
-                    }
                 }
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal, 32)
