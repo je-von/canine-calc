@@ -19,10 +19,14 @@ enum Step: CaseIterable, Equatable{
     }
 }
 
+enum Mascot: String, Equatable{
+    case kisses, hershey
+}
 
 struct ContentView: View {
     @State private var nameTxt: String = ""
     @State private var currentStep: Step = .name
+    @State private var currentMascot: Mascot = .kisses
     @State private var weightTxt = 5.0
     @State private var ageInMonths = 24
     @State private var isSterilized = "No"
@@ -324,7 +328,7 @@ struct ContentView: View {
                                 .font(Font.custom("Take Coffee", size: 32))
                                 .foregroundColor(Color("SecondaryDark"))
                             +
-                            Text("Kisses ")
+                            Text("\(currentMascot.rawValue.capitalized) ")
                                 .font(Font.custom("Take Coffee", size: 32))
                                 .foregroundColor(Color("PrimaryDark"))
                             +
@@ -396,13 +400,26 @@ struct ContentView: View {
                     .padding(8)
                     
                     ZStack{
-                        LottieView(state: LUStateData(type: .name("kisses", .main), speed: 0.5, loopMode: .loop))
+                        LottieView(state: LUStateData(type: .name("kisses", .main), speed: 0.4, loopMode: .loop))
                             .zIndex(50)
+                            .opacity(currentMascot == .kisses ? 1 : 0)
+                            .onTapGesture{
+                                withAnimation{
+                                    currentMascot = .hershey
+                                }
+                            }
+                        LottieView(state: LUStateData(type: .name("hershey", .main), speed: 0.7, loopMode: .loop))
+                            .zIndex(50)
+                            .opacity(currentMascot == .hershey ? 1 : 0)
+                            .onTapGesture{
+                                withAnimation{
+                                    currentMascot = .kisses
+                                }
+                            }
                     }
                     .scaledToFill()
                     .frame(width: 300, height: 600)
                     .padding(.vertical, -40)
-                    //                    .frame(width: 300)
                     .zIndex(50)
                     Spacer()
                 }
