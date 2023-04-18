@@ -1,4 +1,5 @@
 import SwiftUI
+import LottieUI
 struct Carousel: View{
     @State private var slideIndex = 0
     var body: some View{
@@ -44,11 +45,13 @@ struct Carousel: View{
                     Text("Source: 14news.com")
                 }
                 .tag(1)
-                VStack{
+                HStack(spacing: 0){
                     TypewriterText(finalText: "Feed your furry friend right, because a healthy weight can be a matter of life and death for your beloved dog - remember, prevention is key, don't wait until it's too late!")
                         .font(Font.custom("Take Coffee", size: 32))
                         .foregroundColor(Color("SecondaryDark"))
                         .multilineTextAlignment(.center)
+                    LottieView(state: LUStateData(type: .name("puppies", .main), speed: 1.2, loopMode: .loop))
+                        .zIndex(50)
                 }
                 .tag(2)
             }

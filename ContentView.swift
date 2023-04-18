@@ -423,6 +423,7 @@ struct ContentView: View {
                                 }
                             LottieView(state: LUStateData(type: .name("hershey", .main), speed: 0.7, loopMode: .loop))
                                 .zIndex(50)
+                                .scaleEffect(0.9)
                                 .opacity(currentMascot == .hershey ? 1 : 0)
                                 .onTapGesture{
                                     withAnimation{
