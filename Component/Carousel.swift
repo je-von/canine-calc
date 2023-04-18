@@ -48,7 +48,7 @@ struct Carousel: View{
                 }
                 .tag(1)
                 HStack(spacing: 0){
-                    TypewriterText(finalText: "Feed your furry friend right, because a healthy weight can be a matter of life and death for your beloved dog - remember, prevention is key, don't wait until it's too late!")
+                    Text("Feed your furry friend right, because a healthy weight can be a matter of life and death for your beloved dog - remember, prevention is key, don't wait until it's too late!")
                         .font(Font.custom("Take Coffee", size: 32))
                         .foregroundColor(Color("SecondaryDark"))
                         .multilineTextAlignment(.center)
