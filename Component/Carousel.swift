@@ -13,37 +13,35 @@ struct Carousel: View{
                     .font(.system(size: 32))
             }
             TabView(selection: $slideIndex) {
-                VStack{
+                VStack(spacing: 15){
                     Image("hattie")
                         .resizable()
                         .scaledToFit()
+                        .frame(height: 400)
                         .cornerRadius(8)
-                    VStack(alignment: .leading){
-                        Text("Meet Hattie")
-                            .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("SecondaryDark"))
-                        Text("The UK's heaviest dog, known as \"Hattie the Fattie\", has died from liver failure after reaching a weight of 50kg on a diet of burgers. Despite shedding half of her body weight through a strict weight-controlled diet, Hattie could not overcome her health issues.")
-                            .foregroundColor(Color("SecondaryDark"))
+                    Text("Meet Hattie")
+                        .font(Font.custom("Take Coffee", size: 32))
+                        .foregroundColor(Color("SecondaryDark"))
+                    Text("The UK's heaviest dog, known as \"Hattie the Fattie\", has died from liver failure after reaching a weight of 50kg on a diet of burgers. Despite shedding half of her body weight through a strict weight-controlled diet, Hattie could not overcome her health issues.")
+                        .foregroundColor(Color("SecondaryDark"))
                         .font(.system(size: 24))
-                        Text("Source: dailystar.co.uk").foregroundColor(Color("PrimaryDark"))
-                    }
+                    Text("Source: dailystar.co.uk")
+                    
                 }
                 .tag(0)
-                VStack{
+                VStack(spacing: 15){
                     Image("missy")
                         .resizable()
                         .scaledToFit()
                         .cornerRadius(8)
-                    VStack(alignment: .trailing){
-                        Text("Meet Missy")
-                            .font(Font.custom("Take Coffee", size: 32))
-                            .foregroundColor(Color("SecondaryDark"))
-                        Text("Missy has died one month after being rescued. Officials say Missy weighed less than 30 pounds when she was brought in, but she was supposed to weigh over 50 pounds. This made her one of the most severe cases of malnutrition seen by Evansville Animal Control officials.")
-                            .multilineTextAlignment(.trailing)
-                            .foregroundColor(Color("SecondaryDark"))
+                        .frame(height: 400)
+                    Text("Meet Missy")
+                        .font(Font.custom("Take Coffee", size: 32))
+                        .foregroundColor(Color("SecondaryDark"))
+                    Text("Missy has died one month after being rescued. Officials say Missy weighed less than 30 pounds when she was brought in, but she was supposed to weigh over 50 pounds. This made her one of the most severe cases of malnutrition seen by Evansville Animal Control officials.")
+                        .foregroundColor(Color("SecondaryDark"))
                         .font(.system(size: 24))
-                        Text("Source: 14news.com").foregroundColor(Color("Accent"))
-                    }
+                    Text("Source: 14news.com")
                 }
                 .tag(1)
                 VStack{
@@ -52,7 +50,7 @@ struct Carousel: View{
                         .foregroundColor(Color("SecondaryDark"))
                         .multilineTextAlignment(.center)
                 }
-                    .tag(2)
+                .tag(2)
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             .frame(height: 750)

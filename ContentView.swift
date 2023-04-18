@@ -304,14 +304,23 @@ struct ContentView: View {
                         Button{
                             showModal(AnyView(
                                 VStack{
-                                    Text("Why is it important ?")
-                                        .font(Font.custom("Take Coffee", size: 48))
-                                        .foregroundColor(Color("SecondaryDark"))
+                                    VStack{
+                                        Text("Why is it ")
+                                            .foregroundColor(Color("SecondaryDark"))
+                                        +
+                                        Text("important ")
+                                            .foregroundColor(Color("PrimaryDark"))
+                                        +
+                                        Text("?")
+                                            .foregroundColor(Color("SecondaryDark"))
+                                    }
+                                    .font(Font.custom("Take Coffee", size: 48))
+                                    
                                     Carousel()
                                 }
                             ))
                         } label: {
-                            Text("Why is it important?")
+                            Text("Why is it important ?")
                                 .font(Font.custom("Take Coffee", size: 32))
                                 .bold()
                                 .padding(.vertical)
