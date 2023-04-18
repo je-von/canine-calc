@@ -4,7 +4,7 @@ import LottieUI
 import SwiftUIVisualEffects
 
 enum Step: CaseIterable, Equatable{
-    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, result, food, resultWithFood 
+    case name, age, weight, reproductiveStatus, activityLevel, bodyConditionScore, result, food, resultWithFood
     func next() -> Self {
         let all = Self.allCases
         let idx = all.firstIndex(of: self)!
@@ -64,7 +64,7 @@ struct ContentView: View {
                 HStack{
                     Text("Welcome to ")
                         .foregroundColor(Color("SecondaryDark"))
-                    + 
+                    +
                     Text("CanineCalc ")
                         .foregroundColor(Color("PrimaryDark"))
                     +
@@ -78,7 +78,7 @@ struct ContentView: View {
                         FormView(text: "What's your precious little pup's name ?", field: AnyView(
                             TextField("", text: $nameTxt)
                                 .font(Font.custom("Take Coffee", size: 24))
-                                .padding() 
+                                .padding()
                                 .foregroundColor(.white)
                                 .colorMultiply(Color("SecondaryDark"))
                                 .border(Color("SecondaryDark"), width: 8)
@@ -118,7 +118,7 @@ struct ContentView: View {
                             .border(Color("SecondaryDark"), width: 8)
                             
                             .cornerRadius(12, antialiased: true)
-                        )) 
+                        ))
                         
                     } else if currentStep == .weight {
                         FormView(text: "What's \(nameTxt.capitalized)'s weight ?", field: AnyView(
@@ -130,7 +130,7 @@ struct ContentView: View {
                                 .border(Color("SecondaryDark"), width: 8)
                             
                                 .cornerRadius(12, antialiased: true)
-                        )) 
+                        ))
                         
                     } else if currentStep == .reproductiveStatus {
                         FormView(text: "Is \(nameTxt.capitalized) sterilized ?", field: AnyView(
@@ -269,9 +269,9 @@ struct ContentView: View {
                         }
                         if currentStep != .resultWithFood {
                             Button{
-                                if nameTxt.isEmpty { 
+                                if nameTxt.isEmpty {
                                     errorMessage = "Pretty please, tell us your doggie's name first! It's just to add a dash of cuteness and make it extra special!"
-                                    return 
+                                    return
                                 }
                                 errorMessage = ""
                                 
@@ -303,44 +303,11 @@ struct ContentView: View {
                     if currentStep == .resultWithFood{
                         Button{
                             showModal(AnyView(
-                                VStack(spacing: 30){
+                                VStack{
                                     Text("Why is it important ?")
                                         .font(Font.custom("Take Coffee", size: 48))
                                         .foregroundColor(Color("SecondaryDark"))
-                                    HStack{
-                                        Image("hattie")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .cornerRadius(8)
-                                        VStack(alignment: .leading){
-                                            Text("Meet Hattie")
-                                                .font(Font.custom("Take Coffee", size: 32))
-                                                .foregroundColor(Color("SecondaryDark"))
-                                            Text("The UK's heaviest dog, known as \"Hattie the Fattie\", has died from liver failure after reaching a weight of 50kg on a diet of burgers. Despite shedding half of her body weight through a strict weight-controlled diet, Hattie could not overcome her health issues.")
-                                                .foregroundColor(Color("SecondaryDark"))
-                                            Text("Source: dailystar.co.uk")
-                                        }
-                                        
-                                    }
-                                    HStack{
-                                        VStack(alignment: .trailing){
-                                            Text("Meet Missy")
-                                                .font(Font.custom("Take Coffee", size: 32))
-                                                .foregroundColor(Color("SecondaryDark"))
-                                            Text("Missy has died one month after being rescued. Officials say Missy weighed less than 30 pounds when she was brought in, but she was supposed to weigh over 50 pounds. This made her one of the most severe cases of malnutrition seen by Evansville Animal Control officials.")
-                                                .multilineTextAlignment(.trailing)
-                                                .foregroundColor(Color("SecondaryDark"))
-                                            Text("Source: 14news.com")
-                                        }
-                                        Image("missy")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .cornerRadius(8)
-                                    }
-                                    TypewriterText(finalText: "Feed your furry friend right, because a healthy weight can be a matter of life and death for your beloved dog - remember, prevention is key, don't wait until it's too late!")
-                                        .font(Font.custom("Take Coffee", size: 32))
-                                        .foregroundColor(Color("PrimaryDark"))
-                                        .multilineTextAlignment(.center)
+                                    Carousel()
                                 }
                             ))
                         } label: {
@@ -365,7 +332,7 @@ struct ContentView: View {
                             Text("Hi, I'm ")
                                 .font(Font.custom("Take Coffee", size: 32))
                                 .foregroundColor(Color("SecondaryDark"))
-                            + 
+                            +
                             Text("Kisses ")
                                 .font(Font.custom("Take Coffee", size: 32))
                                 .foregroundColor(Color("PrimaryDark"))
@@ -444,7 +411,7 @@ struct ContentView: View {
                     .scaledToFill()
                     .frame(width: 300, height: 600)
                     .padding(.vertical, -40)
-//                    .frame(width: 300)
+                    //                    .frame(width: 300)
                     .zIndex(50)
                     Spacer()
                 }
@@ -476,7 +443,7 @@ struct ContentView: View {
                     }
                     .padding([.top, .trailing])
                     modalContent
-                        .padding() 
+                        .padding()
                 }
                 .background(BlurEffect()).blurEffectStyle(.systemMaterialLight)
                 .cornerRadius(20, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
@@ -492,7 +459,7 @@ struct ContentView: View {
     func showModal(_ content: AnyView){
         modalContent = content
         withAnimation{
-            isModalVisible = true            
+            isModalVisible = true
         }
     }
     
