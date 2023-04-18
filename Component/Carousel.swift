@@ -25,7 +25,7 @@ struct Carousel: View{
                         Text("The UK's heaviest dog, known as \"Hattie the Fattie\", has died from liver failure after reaching a weight of 50kg on a diet of burgers. Despite shedding half of her body weight through a strict weight-controlled diet, Hattie could not overcome her health issues.")
                             .foregroundColor(Color("SecondaryDark"))
                         .font(.system(size: 24))
-                        Text("Source: dailystar.co.uk")
+                        Text("Source: dailystar.co.uk").foregroundColor(Color("PrimaryDark"))
                     }
                 }
                 .tag(0)
@@ -42,7 +42,7 @@ struct Carousel: View{
                             .multilineTextAlignment(.trailing)
                             .foregroundColor(Color("SecondaryDark"))
                         .font(.system(size: 24))
-                        Text("Source: 14news.com")
+                        Text("Source: 14news.com").foregroundColor(Color("Accent"))
                     }
                 }
                 .tag(1)
