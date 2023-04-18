@@ -7,9 +7,12 @@ How many calories and gram of foods should I feed my dog daily? Am I overfeeding
 _This playground app was created to raise awareness about the importance of dog’s daily nutrient needs and how overfeeding and underfeeding your dogs can be a matter of life and death._
 
 
-🤎 Meet the app mascot, Kisses:
 
+🤎 Meet Kisses and Hershey:
+<p>
 <img width="200" src="https://user-images.githubusercontent.com/86874779/231844598-695a85b9-13d9-45ef-b581-3ed0763b5156.gif" />
+<img width="200" src="https://user-images.githubusercontent.com/86874779/232856167-580a9cec-ebc9-47ed-ad92-5d78c5c7c6e2.gif" />
+</p>
 
 -----
 External Assets:
