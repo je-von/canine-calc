@@ -463,6 +463,7 @@ struct ContentView: View {
                     }label: {
                         Image(systemName: "xmark")
                             .foregroundColor(Color("SecondaryDark"))
+                            .font(.system(size: 24, weight: .bold))
                     }
                     .padding([.top, .trailing])
                     modalContent

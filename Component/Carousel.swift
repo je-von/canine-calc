@@ -11,7 +11,7 @@ struct Carousel: View{
             }label: {
                 Image(systemName: "chevron.left")
                     .foregroundColor(Color("SecondaryDark"))
-                    .font(.system(size: 32))
+                    .font(.system(size: 32, weight: .bold))
             }
             TabView(selection: $slideIndex) {
                 VStack(spacing: 15){
@@ -65,7 +65,7 @@ struct Carousel: View{
             }label: {
                 Image(systemName: "chevron.right")
                     .foregroundColor(Color("SecondaryDark"))
-                    .font(.system(size: 32))
+                    .font(.system(size: 32, weight: .bold))
             }
         }
     }
